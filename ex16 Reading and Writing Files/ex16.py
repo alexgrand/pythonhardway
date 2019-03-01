@@ -13,6 +13,7 @@ target = open(filename, 'w')
 
 print("Trancating the file. Goodbye!")
 target.truncate()
+# target.read()
 
 print("Now I'm going to ask you for three lines.")
 
