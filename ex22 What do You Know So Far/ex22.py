@@ -72,3 +72,16 @@ define_Known_Names(symExists, defExists)
 symDef = "def [fn():]"
 defDef = " a function definition that defines a user-defined function object."
 define_Known_Names(symDef, defDef)
+
+symStrip = "str.strip(chars)"
+defStrip = "return a copy of the string with leading and trailing whitespace remove. If chars is given and not None, remove in chars instead until finding first char that is not in chars."
+define_Known_Names(symStrip, defStrip)
+
+symEncode = "str.encode()"
+defEncode = "str.encode(encoding='utf-8, errors='strict').\n Encode the string using the codec registered for encoding."
+define_Known_Names(symEncode, defEncode)
+
+symDecode = "bytes.decode()"
+defDecode = """ecode(self, /, encoding='utf-8', errors='strict')
+    Decode the bytes using the codec registered for encoding."""
+define_Known_Names(symDecode, defDecode)
