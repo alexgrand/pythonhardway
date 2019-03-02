@@ -1,6 +1,7 @@
 from sys import argv
 
 script, userName = argv
+print(">>> argv.__contains__('Alex')=", argv.__contains__('Alex'))
 prompt = '> '
 
 print(f'Hi {userName}, I\'m the \'{script}\' script.')
