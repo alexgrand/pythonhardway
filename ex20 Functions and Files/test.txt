@@ -1,0 +1,3 @@
+line1: some shit is going on
+line2: when I'll get money?
+line3: I want to earn money by coding which I love
