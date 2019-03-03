@@ -85,3 +85,28 @@ symDecode = "bytes.decode()"
 defDecode = """ecode(self, /, encoding='utf-8', errors='strict')
     Decode the bytes using the codec registered for encoding."""
 define_Known_Names(symDecode, defDecode)
+
+symSplit = "str.split()"
+defSplit = """split(self, /, sep=None, maxsplit=-1)
+    Return a list of the words in the string, using sep as the delimiter string.
+
+    sep
+      The delimiter according which to split the string.
+      None (the default value) means split according to any whitespace,
+      and discard empty strings from the result.
+    maxsplit
+      Maximum number of splits to do.
+      -1 (the default value) means no limit."""
+define_Known_Names(symSplit, defSplit)
+
+symSorted = "sorted()"
+defSorted = """"sorted(iterable, /, *, key=None, reverse=False)
+    Return a new list containing all items from the iterable in ascending order.
+
+    A custom key function can be supplied to customize the sort order, and the
+    reverse flag can be set to request the result in descending order."""
+define_Known_Names(symSorted, defSorted)
+
+symPop = "arr.pop()"
+defPop = "If key is in the dictionary, remove it and return its value, else return default. If default is not given and key is not in the dictionary, a KeyError is raised."
+define_Known_Names(symPop, defPop)
