@@ -82,7 +82,7 @@ defEncode = "str.encode(encoding='utf-8, errors='strict').\n Encode the string u
 define_Known_Names(symEncode, defEncode)
 
 symDecode = "bytes.decode()"
-defDecode = """ecode(self, /, encoding='utf-8', errors='strict')
+defDecode = """encode(self, /, encoding='utf-8', errors='strict')
     Decode the bytes using the codec registered for encoding."""
 define_Known_Names(symDecode, defDecode)
 
@@ -107,6 +107,21 @@ defSorted = """"sorted(iterable, /, *, key=None, reverse=False)
     reverse flag can be set to request the result in descending order."""
 define_Known_Names(symSorted, defSorted)
 
-symPop = "arr.pop()"
+symPop = "list.pop()"
 defPop = "If key is in the dictionary, remove it and return its value, else return default. If default is not given and key is not in the dictionary, a KeyError is raised."
 define_Known_Names(symPop, defPop)
+
+symAppend = "list.append()"
+defAppend = """append(self, object, /)
+    Append object to the end of the list"""
+define_Known_Names(symAppend, defAppend)
+
+symRange = "range()"
+defRange = """range(start, stop[, step]) -> range object
+ 
+   Return an object that produces a sequence of integers from start (inclusive)
+   to stop (exclusive) by step.  range(i, j) produces i, i+1, i+2, ..., j-1.
+   start defaults to 0, and stop is omitted!  range(4) produces 0, 1, 2, 3.
+   These are exactly the valid indices for a list of 4 elements.
+   When step is given, it specifies the increment (or decrement)"""
+define_Known_Names(symRange, defRange)
