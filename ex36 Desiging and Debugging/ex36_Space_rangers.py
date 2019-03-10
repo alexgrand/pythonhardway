@@ -9,11 +9,12 @@ inventory = []
 def start():
   decision_tree(0, user_name)
 
-def print_one_text(index, str_format):
-  print(all_texts[index][0].format(str_format))
+def print_all_text(index, f_string):
+  print(all_texts[index][0].format(f_string))
 
-def decision_tree(index, str_format):
-  print_one_text(index, str_format)
+def decision_tree(index, f_string):
+  print_all_text(index, f_string)
+  get_inventory(index)
   user_choice = input("> ")
 
   try:
@@ -24,13 +25,25 @@ def decision_tree(index, str_format):
     else:
       user_choice = index
 
-    decision_tree(user_choice, str_format)
+    decision_tree(user_choice, f_string)
 
   except:
     if user_choice == 'exit':
       return
     
     print(">>> Если вы хотите выйти напишите exit")
-    decision_tree(index, str_format)
+    decision_tree(index, f_string)
+
+def get_inventory(index):
+  for item in all_inventory:
+    if item[0] == index and not inventory.__contains__(item[1]):
+      inventory.append(item[1])
+
+  if len(inventory) > 0:
+    print("У вас есть: ")
+    # for item in inventory:
+    #   print(item)
+    print(inventory)
+
 
 start()

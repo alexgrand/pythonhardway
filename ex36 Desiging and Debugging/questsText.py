@@ -48,5 +48,7 @@ introduction = """
   1.----Давайте приступим. Чем быстрее мы начнем, тем быстрее закончим----
   2.----У меня есть кое-какие вопросы----
 """
-
+# numbers inside elements are indexes for next quest's step
 all_texts = [[begining_text, 1], [base_camp, 2, 3], [give_stopper_back, 4], [put_stopper_to_pocket, 4], [introduction]]
+
+all_inventory = [[3, "*** Пробка от гуанавы***"]]
