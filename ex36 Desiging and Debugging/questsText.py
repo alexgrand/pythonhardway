@@ -49,4 +49,4 @@ introduction = """
   2.----У меня есть кое-какие вопросы----
 """
 
-all_texts = [[begining_text, 1], [base_camp, 2], [give_stopper_back, 1], [put_stopper_to_pocket, 1, '**Пробка от гуанавы**'], [introduction, 2]]
+all_texts = [[begining_text, 1], [base_camp, 2, 3], [give_stopper_back, 4], [put_stopper_to_pocket, 4], [introduction]]
