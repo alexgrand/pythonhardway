@@ -5,6 +5,7 @@ from questsText import *
 
 user_name = input("Ваше имя? > ")
 inventory = []
+msg = "У вас есть:\n"
 
 def start():
   decision_tree(0, user_name)
@@ -35,15 +36,18 @@ def decision_tree(index, f_string):
     decision_tree(index, f_string)
 
 def get_inventory(index):
-  for item in all_inventory:
-    if item[0] == index and not inventory.__contains__(item[1]):
-      inventory.append(item[1])
+  global msg
 
+  if all_inventory[index] != '':
+    for item in all_inventory[index]:
+      if not inventory.__contains__(item):
+        inventory.append(item)
+        msg += f"{item} \n"
+  
+  # if len(inventory) > 0:
+  #   print("У вас есть: ")
   if len(inventory) > 0:
-    print("У вас есть: ")
-    # for item in inventory:
-    #   print(item)
-    print(inventory)
-
+    print(msg)
+    
 
 start()
