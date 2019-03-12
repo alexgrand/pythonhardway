@@ -57,7 +57,4 @@ def get_formated_arr(text_line, form):
   formated_string.pop(0)
 
   return [string, formated_string]
-
-
-
-pick_up_quest()
+  
