@@ -22,12 +22,11 @@ def decision_tree(index, f_string):
     user_choice = int(user_choice)
 
     if user_choice < len(all_texts[index]) and user_choice != 0:
-      user_choice = all_texts[index][user_choice]
+      user_choice = int(all_texts[index][user_choice])
     else:
       user_choice = index
 
     decision_tree(user_choice, f_string)
-
   except:
     if user_choice == 'exit':
       return
