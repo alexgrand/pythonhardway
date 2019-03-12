@@ -44,8 +44,6 @@ def get_inventory(index):
         inventory.append(item)
         msg += f"{item} \n"
   
-  # if len(inventory) > 0:
-  #   print("У вас есть: ")
   if len(inventory) > 0:
     print(msg)
     
