@@ -27,6 +27,7 @@ def decision_tree(index, f_string):
       user_choice = index
 
     decision_tree(user_choice, f_string)
+    
   except:
     if user_choice == 'exit':
       return
