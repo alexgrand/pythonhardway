@@ -25,14 +25,18 @@ def make_decision(index):
   try:
     user_choice = int(user_choice)
 
-    # if user_choice
+    if user_choice <= len(all_steps[index]) and user_choice != 0:
+      user_choice = int(all_steps[index][user_choice - 1])
+    else:
+      user_choice = index
+
+    make_decision(user_choice)
 
   except:
     if user_choice == 'exit':
       return
     
     print("Введите правильный вариант или exit")
-
     make_decision(index)
 
 
