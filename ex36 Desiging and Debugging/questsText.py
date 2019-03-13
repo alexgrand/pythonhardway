@@ -29,9 +29,11 @@ def find_quest():
   
   for line in all_quest:
     texts.append(get_texts_n_steps(line))
-
+    
   return texts
 
 
 all_texts = find_quest()
 all_inventory = ['', '']
+
+print(all_texts)

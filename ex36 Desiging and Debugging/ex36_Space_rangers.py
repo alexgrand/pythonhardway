@@ -11,6 +11,8 @@ def start():
   decision_tree(0, user_name)
 
 def print_all_text(index, f_string):
+  print(">>> index=", index)
+  print(">>> len(all_texts)=", len(all_texts))
   print(all_texts[index][0].format(f_string))
 
 def decision_tree(index, f_string):
@@ -27,7 +29,7 @@ def decision_tree(index, f_string):
       user_choice = index
 
     decision_tree(user_choice, f_string)
-    
+
   except:
     if user_choice == 'exit':
       return
