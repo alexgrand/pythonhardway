@@ -20,6 +20,8 @@ def print_line(arr, index):
 
 def make_decision(index):
   print_line(all_texts, index)
+  check_inventory(index)
+  print_inventory()
   user_choice = input("> ")
 
   try:
@@ -40,8 +42,18 @@ def make_decision(index):
     make_decision(index)
 
 
+def check_inventory(index):
+  if index != 0 and not my_inventory.__contains__(all_inventory[index]):
+    if all_inventory[index] != '':
+      my_inventory.append(all_inventory[index])
+
+def print_inventory():
+  if len(my_inventory) > 0:
+    print("У вас есть:")
+    print(my_inventory)
+
 def start():
-  global all_texts, all_steps, all_inventory, user_name
+  global all_texts, all_steps, all_inventory, user_name, my_inventory
   all_quest = pick_up_quest()
 
   user_name = input("Введите ваше имя: ")
@@ -50,6 +62,7 @@ def start():
   all_texts = all_quest_lines[0]
   all_steps = all_quest_lines[1]
   all_inventory = all_quest_lines[2]
+  my_inventory = []
   make_decision(0)
 
 
