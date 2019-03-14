@@ -1,18 +1,4 @@
-from quest_read import pick_up_quest
-
-
-def get_quest_elements(raw_data):
-  global all_texts, all_steps, all_inventory, my_inventory
-  all_texts = []
-  all_steps = []
-  all_inventory = []
-  my_inventory = []
-
-  for line in raw_data:
-    all_texts.append(line[0])  
-    all_steps.append(line[1])
-    all_inventory.append(line[2])
-
+from quest_read_v1 import pick_up_quest
 
 def print_line(arr, index):
   if arr == all_inventory:
@@ -56,12 +42,17 @@ def print_inventory():
     print(my_inventory)
 
 def start():
-  global user_name
+  global user_name, all_texts, all_steps, all_inventory, my_inventory
   all_quest = pick_up_quest()
 
   user_name = input("Введите ваше имя: ")
 
-  get_quest_elements(all_quest)
+  all_texts = all_quest[0]
+  all_steps = all_quest[1]
+  all_inventory = all_quest[2]
+
+  my_inventory = []
+
   make_decision(0)
 
 
