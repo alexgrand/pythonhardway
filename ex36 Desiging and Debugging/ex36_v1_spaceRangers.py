@@ -2,16 +2,17 @@ from quest_read import pick_up_quest
 
 
 def get_quest_elements(raw_data):
-  texts = []
-  steps = []
-  inventory = []
+  global all_texts, all_steps, all_inventory, my_inventory
+  all_texts = []
+  all_steps = []
+  all_inventory = []
+  my_inventory = []
 
   for line in raw_data:
-    texts.append(line[0])  
-    steps.append(line[1])
-    inventory.append(line[2])
-  
-  return [texts, steps, inventory]
+    all_texts.append(line[0])  
+    all_steps.append(line[1])
+    all_inventory.append(line[2])
+
 
 def print_line(arr, index):
   if arr == all_inventory:
@@ -19,6 +20,8 @@ def print_line(arr, index):
   print(arr[index].format(user_name))
 
 def make_decision(index):
+  print("________________________________________________________")
+  print("________________________________________________________")
   print_line(all_texts, index)
   check_inventory(index)
   print_inventory()
@@ -53,16 +56,12 @@ def print_inventory():
     print(my_inventory)
 
 def start():
-  global all_texts, all_steps, all_inventory, user_name, my_inventory
+  global user_name
   all_quest = pick_up_quest()
 
   user_name = input("Введите ваше имя: ")
 
-  all_quest_lines = get_quest_elements(all_quest)
-  all_texts = all_quest_lines[0]
-  all_steps = all_quest_lines[1]
-  all_inventory = all_quest_lines[2]
-  my_inventory = []
+  get_quest_elements(all_quest)
   make_decision(0)
 
 
