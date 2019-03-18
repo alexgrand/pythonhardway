@@ -24,7 +24,7 @@ def make_decision(index):
     make_decision(user_choice)
 
   except:
-    if user_choice == 'exit':
+    if 'exit' in user_choice:
       return
     
     print("Введите правильный вариант или exit")
