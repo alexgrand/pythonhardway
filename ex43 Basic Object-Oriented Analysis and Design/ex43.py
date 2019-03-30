@@ -112,6 +112,7 @@ class LaserWeaponArmory(Scene):
     """))
 
     code = "{}{}{}".format(randint(1,9), randint(1,9), randint(1,9))
+    print(">>> code=", code)
     guess = input("[keypod]> ")
     guesses = 0
 
@@ -191,15 +192,16 @@ class EscapePod(Scene):
     """))
 
     good_pod = randint(1,5)
+    print(">>> good_pod=", good_pod)
     guess = input("[pod #]> ")
 
     if int(guess) != good_pod:
       print(dedent(("""
-        You jump into pod {guess} and hit the eject button.
+        You jump into pod {} and hit the eject button.
         The pod escapes out into the void of space, then
         implodes as the hull ruptures, crushing your body into
         jam jelly.
-      """)))
+      """.format(guess))))
       return 'death'
     
     else:
