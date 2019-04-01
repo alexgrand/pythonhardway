@@ -90,6 +90,50 @@ all_scenes = {
       'Пробка от гуанавы': 1
     },
   },
+  'take_probe': {
+    'text': """
+      \tПробка была очень красивой - из мягкой породы красного дерева, 
+      инкрустированная изящным узором из золотистого пластика. Очень 
+      хороший сувенир! К сожалению, Маккалистер заметил вашу маленькую 
+      клептоманическую акцию и сделал вам суровую отповедь:
+      \t- А вот так не поступайте в деревне мензолов ни в коем случае! 
+      Воровство - это самое страшное преступление в среде мензолов. 
+      За него вас могут даже убить, если поймают. И, главное, вы навсегда 
+      потеряете уважение мензолов. Запомните: даже если мензол выбросил 
+      какую-то вещь, она все равно принадлежит ему! И вы не можете ею 
+      завладеть, просто подняв ее с земли. Вы все равно должны будете 
+      эту вещь купить. Впрочем, есть одно исключение: если мензол 
+      выбросил вещь на деревенскую свалку, то это значит, что она ему не 
+      нужна. Любой может взять ее оттуда бесплатно, хотя это и считается 
+      дурным тоном... Если уж вам так понравилась эта пробка, то можете 
+      оставить ее у себя. Кстати, мензол на моем месте никогда бы не 
+      сделал вам подарка. Вы в любом случае должны были бы купить у него 
+      пробку или дать ему что-нибудь взамен...
+      \tНаконец Маккалистер махнул рукой и наполнил ваш, а потом и свой 
+      стакан тягучей жидкостью, от которой несло чем-то древесным. 
+      \t- Пожалуйста, угощайтесь, - предложил он.
+    """,
+    'steps': {
+      '1': {
+        'text': "\t1. Далее",
+        'next_step': '',
+      },
+    },
+    'inventory': {
+      'Пробка от гуанавы': -1
+    }
+  },
+  'end': {
+    'text': """
+      \t Дак вы померли, дорогуша!
+    """,
+    'steps': {
+      '1': {
+        'text': '\t Начать сначала, мляяяя',
+        'next_step': 'begining'
+      },
+    },
+  },
 }
 
 class Scene(object):
@@ -99,6 +143,21 @@ class Scene(object):
     self.steps = steps
     self.inventory = inventory
 
+  def print_text(self, *f_args):
+    print(self.text.format(*f_args))
+  
+  def print_steps(self):
+    print("\n")
+    for step in self.steps:
+      print(self.steps[step]['text'])
+
+  def get_next_step(self, usr_input):
+    usr_choice = self.steps.get(usr_input)
+
+    if usr_choice:
+      return usr_choice.get('next_step')
+    else:
+      return
 
 class Inventory(object):
   def __init__(self):
@@ -120,6 +179,12 @@ class Inventory(object):
   def show(self):
     return self.inventory
 
+  def print(self):
+    if len(self.inventory) > 0:
+      print("\t", "*" * 5, "У вас есть", "*" * 5)
+      for item in self.inventory:
+        print(f"\t{item}:", self.inventory.get(item))
+      
 
 class Map(object):
   def __init__(self, scene_map):
@@ -167,15 +232,39 @@ class Game(object):
         '{next_step =', scene.steps[step]['next_step'], '}'
       )
   
-  def play(self):
-    current_scene = self.all_scenes.get('begining')
-    last_scene = self.all_scenes.get('end')
+  def check_inventory(self, scene_obj):
+    if scene_obj.inventory:
+      for i_name in scene_obj.inventory:
+        self.inventory.put(i_name, scene_obj.inventory[i_name])
 
-    while current_scene != last_scene:
-      print(current_scene, last_scene)
-      current_scene = last_scene
+  def play(self, scene_name):
+    current_scene = self.scene_map.get(scene_name)
+    last_scene = self.scene_map.get('end')
+    inventory = self.inventory
+
+    self.check_inventory(current_scene)
+
+    current_scene.print_text(self.user_name)
+    inventory.print()
+    current_scene.print_steps()
+      
+    
+    usr_input = input("> ")
+    next_step = current_scene.get_next_step(usr_input)
+
+    if usr_input == 'exit':
+      exit(1)
+    elif next_step:
+      scene_name = next_step
+    else:
+      print("\n\t---Неверный вариант! Напишите exit, если хотите выйти!---")
+    
+    self.play(scene_name)
+        
+
+
 
 
 game = Game(all_scenes)
 game.start()
-game.play()
+game.play('begining')
