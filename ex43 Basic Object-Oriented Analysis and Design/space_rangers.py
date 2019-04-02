@@ -83,7 +83,7 @@ all_scenes = {
     'steps': {
       '1': {
         'text': '\t1. Далее',
-        'next_step': ''
+        'next_step': 'end'
       }
     },
     'inventory': {
@@ -116,23 +116,12 @@ all_scenes = {
     'steps': {
       '1': {
         'text': "\t1. Далее",
-        'next_step': '',
+        'next_step': 'end',
       },
     },
     'inventory': {
       'Пробка от гуанавы': -1
     }
-  },
-  'end': {
-    'text': """
-      \t Дак вы померли, дорогуша!
-    """,
-    'steps': {
-      '1': {
-        'text': '\t Начать сначала, мляяяя',
-        'next_step': 'begining'
-      },
-    },
   },
 }
 
@@ -252,8 +241,11 @@ class Game(object):
     usr_input = input("> ")
     next_step = current_scene.get_next_step(usr_input)
 
+
     if usr_input == 'exit':
-      exit(1)
+      self.stop()
+    elif next_step == 'end':
+      self.stop()
     elif next_step:
       scene_name = next_step
     else:
