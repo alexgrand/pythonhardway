@@ -137,7 +137,7 @@ class Raw_Scene(object):
   def put_name(self):
     name = input("Название сцены? >")
 
-    if self.check_usr_input(name):
+    if name != '' and self.check_usr_input(name):
       self.name = name
     else: 
       self.put_name()
@@ -206,7 +206,7 @@ class Raw_Scene(object):
         step['next_step'] = input_next_step
         print(self.steps)
 
-        is_next_step = input("Есть ли следующий шаг? (y/n) >")
+        is_next_step = input("Есть ли еще шаг? (y/n) >")
         
         if is_next_step == 'y':
           step_num += 1
@@ -235,16 +235,50 @@ class Raw_Scene(object):
         self.inventory[inv_name] = inv_amount
 
       print(f"Инвентарь сцены: {self.inventory}")
+      print("*" * 105)
       self.put_inventory()
     
     elif is_inventory == '':
       self.put_inventory()
 
+  def make(self, *methods):
+    if not methods:
+      self.put_name()
+      self.put_text()
+      self.put_inventory()
+      self.put_steps()
+      
 
+    self.scene[self.name] = {}
+    scene = self.scene[self.name]
+    scene['text'] = self.text
+    scene['inventory'] = self.inventory
+    scene['steps'] = self.steps
+
+    self.show()
+
+    if not self.check_usr_input(''):
+      self.make()
+
+  def show(self):
+    print("*" * 105)
+    print("\t" + self.name)
+    print(self.text)
+
+    for item in self.inventory:
+      print("\t", item, f"[{self.inventory[item]}]")
+    
+    print("\n")
+
+    for step in self.steps:
+      print(self.steps[step]['text'], f"[{self.steps[step]['next_step']}]")
 
 new_scene = Raw_Scene()
 # new_scene.put_name()
 # new_scene.put_text()
 # new_scene.put_steps()
 # new_scene.put_inventory()
+new_scene.make()
+# getattr(new_scene, 'put_name')()
+
 
