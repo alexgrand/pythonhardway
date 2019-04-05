@@ -145,7 +145,7 @@ class Raw_Scene(object):
   def format_usr_text(self, u_input, max_line_size):
     line = ''
     str_to_repl = '*n*'
-    u_input = u_input.replace(str_to_repl, f" {str_to_repl}")
+    u_input = u_input.replace(str_to_repl, f" {str_to_repl} ")
     words_list = u_input.split(' ')
 
     formatted_str = ''
@@ -204,7 +204,6 @@ class Raw_Scene(object):
         step = self.steps[str(step_num)]
         step['text'] = f"\t{step_num}. {input_step_text}."
         step['next_step'] = input_next_step
-        print(self.steps)
 
         is_next_step = input("Есть ли еще шаг? (y/n) >")
         
@@ -241,14 +240,34 @@ class Raw_Scene(object):
     elif is_inventory == '':
       self.put_inventory()
 
-  def make(self, *methods):
-    if not methods:
+  def change_data(self):
+    must_be_changed = input("Что вы хотите изменить? Введите через пробел (name/text/inventory/steps) \nЕсли хотите поменять все, нажмите enter:\n")
+    
+    if not must_be_changed:
+      self.make()
+    else:
+      must_be_changed = must_be_changed.split()
+      
+      for func in must_be_changed:
+        try:
+          fn = getattr(self, f"put_{func}")
+          fn()
+        except:
+          print("*" * 105)
+          print(f"\n\nПеременной {func} не существует. Введите правильное значение!")
+          self.change_data()
+          return
+      
+      self.make(True)
+
+  def make(self, has_change = False):
+    if not has_change:
       self.put_name()
       self.put_text()
       self.put_inventory()
       self.put_steps()
-      
 
+      
     self.scene[self.name] = {}
     scene = self.scene[self.name]
     scene['text'] = self.text
@@ -258,8 +277,8 @@ class Raw_Scene(object):
     self.show()
 
     if not self.check_usr_input(''):
-      self.make()
-
+      self.change_data()
+        
   def show(self):
     print("*" * 105)
     print("\t" + self.name)
