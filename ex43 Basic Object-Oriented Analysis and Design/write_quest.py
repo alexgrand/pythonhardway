@@ -159,7 +159,12 @@ class Raw_Scene(object):
           line += word + ' '
       else:
         formatted_str += line
-        line = "\n    " + word + ' '
+
+        if word.__contains__(str_to_repl):
+          word = word.replace(str_to_repl, (f"\n{' ' * 8}"))
+          line = word + ' '
+        else:
+          line = "\n    " + word + ' '
     
     formatted_str += line + '\n'
 
@@ -292,12 +297,30 @@ class Raw_Scene(object):
     for step in self.steps:
       print(self.steps[step]['text'], f"[{self.steps[step]['next_step']}]")
 
+
+class All_Scenes(object):
+  def __init__(self):
+    self.all_scenes = {}
+
+  def create(self):
+    question = "|Создать новую сцену? (y/n)|"
+    question = f"\n{'-' * len(question)}\n{question}\n{'-' * len(question)}\n"
+    make_new_scene = input(question)
+
+
+    if make_new_scene == 'y':
+      new_scene = Raw_Scene()
+      new_scene.make()
+      print(new_scene.scene)
+
+    elif make_new_scene != 'n':
+      self.create()
+
+    else:
+      return
+
 new_scene = Raw_Scene()
-# new_scene.put_name()
-# new_scene.put_text()
-# new_scene.put_steps()
-# new_scene.put_inventory()
-new_scene.make()
-# getattr(new_scene, 'put_name')()
+new_scene.put_text()
 
-
+# all_scenes = All_Scenes()
+# all_scenes.create()
