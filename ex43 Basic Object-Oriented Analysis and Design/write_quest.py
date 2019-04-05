@@ -220,6 +220,4 @@ new_scene = Raw_Scene()
 # new_scene.put_name()
 # new_scene.put_text()
 new_scene.put_steps()
-print(new_scene.steps)
-print(all_scenes.get('camp').get('steps'))
 
