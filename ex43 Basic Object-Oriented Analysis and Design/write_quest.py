@@ -135,43 +135,36 @@ class Raw_Scene(object):
     self.inventory = {}
   
   def put_name(self):
-    self.name = input("Название сцены? ")
+    self.name = input("Название сцены? >")
   
-  def put_text(self):
-    
-    u_line = '*n**t*Вы достигли лагеря ученых-этнографов и посадили свой корабль на стоянке. Лагерь представлял собой площадку, огороженную деревянным частоколом, с пластиковыми палатками и одним металлическим домиком посередине. Вы не успели как следует осмотреться, как к вам подошел человек, одетый в меховую куртку, с костяными бусами на шее и в уборе из листьев на голове.*n**t* - Приветствую вас, {}, - он протянул вам руку. - Мы ждем вас со дня на день. Как долетели?*n**t* - Спасибо, весьма комфортно, - вы пожали ему руку, с трудом преодолев опасение заразиться какой-нибудь местной экзотической болезнью.*n**t* - Я Рене Маккалистер, начальник этой станции. Давайте выпьем по стаканчику гуанавы, и я введу вас в курс дела. Вы скоро поймете, какого рода услуги нам требуются и для чего вы нам нужны.*n**t* Вы вошли в одну из пластиковых палаток. К вашему удивлению, внутри она оказалась весьма цивилизованной - мебель, аппаратура, кровать с водяным матрасом в углу. Маккалистер посадил вас за стол, поставил два стакана и большую бутыль с темным коричневым напитком. Маккалистер сделал несколько попыток открыть пробку; наконец ему это удалось, но пробка отскочила и упала прямо под вашим стулом. Произнеся какое-то местное ругательство, ученый принялся искать пробку под столом и рядом с собой.'
+  def format_usr_input(self, u_input, max_line_size):
+    line = ''
+    str_to_repl = '*n*'
+    u_input = u_input.replace(str_to_repl, f" {str_to_repl}")
+    words_list = u_input.split(' ')
 
-    print(all_scenes.get('camp'))
-    print("*" *210)
-    print(all_scenes.get('camp').get('text'))
-    
-    # u_line = u_line.replace('*n*', "\n")
-    
-    max_line_size = 60
-    words_list = u_line.split(' ')
-    text_line = {'text': ''}
-
-    print("*" * 210)
-    print(words_list)
-
-    line = '\n\t'
-    list_of_words = []
+    formatted_str = ''
 
     for word in words_list:
       if len(line) + len(word) < max_line_size:
-        line += word + ' '
+        if word.__contains__(str_to_repl):
+          formatted_str += line
+          line = word.replace(str_to_repl, (f"\n{' ' * 8}"))
+        else:
+          line += word + ' '
       else:
-        text_line['text'] += line
-        line = "\n\t" + word + ' '
+        formatted_str += line
+        line = "\n    " + word + ' '
     
-    text_line['text'] += line
-    
+    formatted_str += line + '\n'
 
+    return formatted_str
+
+  def put_text(self):
+    user_input = input("Текст сцены? \n(вместо 'enter'и создания абзаца, пишите *n*) >")
     
-    print("*" * 210)
-    print(text_line.get('text'))
-    print("*" * 210)
-    print(text_line)
+    print(self.format_usr_input(user_input, 70))
+
 
 
 
