@@ -166,16 +166,16 @@ class Raw_Scene(object):
     return formatted_str
 
   def check_usr_input(self, u_input):
-    print("*" * 210)
+    print("*" * 105)
     print(u_input)
-    print("*" * 210)
+    print("*" * 105)
 
-    is_correct_input = input("Введенные данные верны? (y/n)\n")
+    is_correct_input = input("Эти данные верны? (y/n)\n")
 
     if is_correct_input == 'y':
       return True
     else:
-      print("ВВЕДИТЕ ДАННЫЕ ЗАНОВО.")
+      print("ВВЕДИТЕ КОРРЕКТНЫЕ ДАННЫЕ.")
       print("*" * 105)
       return False
     
@@ -189,11 +189,37 @@ class Raw_Scene(object):
     else:
       self.put_text()
 
+  def put_steps(self, step_num = 1):
+    input_step_text = input(f"Введите текст для шага № {step_num} >")
+    input_next_step = input("Введите название сцены, куда шаг ведет >")
+
+    if input_step_text == '' or input_next_step == '':
+      print("ВВЕДИТЕ КОРРЕКТНЫЕ ДАННЫЕ.")
+      self.put_steps(step_num)
+
+    else:
+
+      if self.check_usr_input(input_step_text) and self.check_usr_input(input_next_step):
+        self.steps[str(step_num)] = {}
+        step = self.steps[str(step_num)]
+        step['text'] = f"\t{step_num}. {input_step_text}."
+        step['next_step'] = input_next_step
+
+        is_next_step = input("Есть ли следующий шаг? (y/n) >")
+        
+        if is_next_step == 'y':
+          step_num += 1
+          self.put_steps(step_num)
+
+      else:
+        self.put_steps(step_num)
+
 
 
 new_scene = Raw_Scene()
-new_scene.put_name()
-new_scene.put_text()
-print(new_scene.name)
-print(new_scene.text)
+# new_scene.put_name()
+# new_scene.put_text()
+new_scene.put_steps()
+print(new_scene.steps)
+print(all_scenes.get('camp').get('steps'))
 
