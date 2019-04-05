@@ -214,10 +214,37 @@ class Raw_Scene(object):
       else:
         self.put_steps(step_num)
 
+  def put_inventory(self):
+    is_inventory = input("Есть ли(еще) инвентарь, который добавляется в этой сцене? (y/n) >")
+
+    if is_inventory == 'y':
+      inv_name = input("Введите название единицы инвентаря > ")
+      inv_amount = input("Введите количество либо наименование >")
+      int_or_str = input("Это количество или признак? (1/2)>")
+
+      if int_or_str == '1':
+        try:
+          inv_amount = int(inv_amount)
+        except: 
+          print(f"{inv_amount} - это не число! В наказание вводите этот инвентарь заново!")
+          self.put_inventory()
+
+
+      if self.check_usr_input(f"{inv_name}: {inv_amount}"):
+        self.inventory[inv_name] = inv_amount
+
+      print(f"Инвентарь сцены: {self.inventory}")
+      self.put_inventory()
+    
+    elif is_inventory == '':
+      self.put_inventory()
+
 
 
 new_scene = Raw_Scene()
 # new_scene.put_name()
 # new_scene.put_text()
-new_scene.put_steps()
+# new_scene.put_steps()
+new_scene.put_inventory()
+print(new_scene.inventory)
 
