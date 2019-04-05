@@ -237,7 +237,7 @@ class Raw_Scene(object):
       print("*" * 105)
       self.put_inventory()
     
-    elif is_inventory == '':
+    elif is_inventory == '' or is_inventory != 'n':
       self.put_inventory()
 
   def change_data(self):
