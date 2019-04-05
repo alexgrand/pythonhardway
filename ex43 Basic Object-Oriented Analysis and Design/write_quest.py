@@ -135,7 +135,12 @@ class Raw_Scene(object):
     self.inventory = {}
   
   def put_name(self):
-    self.name = input("Название сцены? >")
+    name = input("Название сцены? >")
+
+    if self.check_usr_input(name):
+      self.name = name
+    else: 
+      self.put_name()
   
   def format_usr_input(self, u_input, max_line_size):
     line = ''
@@ -160,14 +165,35 @@ class Raw_Scene(object):
 
     return formatted_str
 
+  def check_usr_input(self, u_input):
+    print("*" * 210)
+    print(u_input)
+    print("*" * 210)
+
+    is_correct_input = input("Введенные данные верны? (y/n)\n")
+
+    if is_correct_input == 'y':
+      return True
+    else:
+      print("ВВЕДИТЕ ДАННЫЕ ЗАНОВО.")
+      print("*" * 105)
+      return False
+    
   def put_text(self):
     user_input = input("Текст сцены? \n(вместо 'enter'и создания абзаца, пишите *n*) >")
     
-    print(self.format_usr_input(user_input, 70))
-
+    formatted_input = self.format_usr_input(user_input, 70)
+    
+    if self.check_usr_input(formatted_input):
+      self.text = formatted_input
+    else:
+      self.put_text()
 
 
 
 new_scene = Raw_Scene()
+new_scene.put_name()
 new_scene.put_text()
+print(new_scene.name)
+print(new_scene.text)
 
