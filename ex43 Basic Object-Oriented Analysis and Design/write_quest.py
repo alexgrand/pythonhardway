@@ -199,11 +199,12 @@ class Raw_Scene(object):
 
     else:
 
-      if self.check_usr_input(input_step_text) and self.check_usr_input(input_next_step):
+      if self.check_usr_input(f"{input_step_text}:\n{input_next_step}"):
         self.steps[str(step_num)] = {}
         step = self.steps[str(step_num)]
         step['text'] = f"\t{step_num}. {input_step_text}."
         step['next_step'] = input_next_step
+        print(self.steps)
 
         is_next_step = input("Есть ли следующий шаг? (y/n) >")
         
@@ -213,7 +214,7 @@ class Raw_Scene(object):
 
       else:
         self.put_steps(step_num)
-
+    
   def put_inventory(self):
     is_inventory = input("Есть ли(еще) инвентарь, который добавляется в этой сцене? (y/n) >")
 
@@ -245,6 +246,5 @@ new_scene = Raw_Scene()
 # new_scene.put_name()
 # new_scene.put_text()
 # new_scene.put_steps()
-new_scene.put_inventory()
-print(new_scene.inventory)
+# new_scene.put_inventory()
 
