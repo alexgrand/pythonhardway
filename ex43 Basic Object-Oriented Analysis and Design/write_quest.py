@@ -142,7 +142,7 @@ class Raw_Scene(object):
     else: 
       self.put_name()
   
-  def format_usr_input(self, u_input, max_line_size):
+  def format_usr_text(self, u_input, max_line_size):
     line = ''
     str_to_repl = '*n*'
     u_input = u_input.replace(str_to_repl, f" {str_to_repl}")
@@ -182,7 +182,7 @@ class Raw_Scene(object):
   def put_text(self):
     user_input = input("Текст сцены? \n(вместо 'enter'и создания абзаца, пишите *n*) >")
     
-    formatted_input = self.format_usr_input(user_input, 70)
+    formatted_input = self.format_usr_text(user_input, 70)
     
     if self.check_usr_input(formatted_input):
       self.text = formatted_input
