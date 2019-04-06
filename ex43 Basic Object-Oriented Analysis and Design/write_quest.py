@@ -198,9 +198,9 @@ class All_Scenes(object):
       new_scene.make()
       name = new_scene.name
 
-      self.add_unused_steps(new_scene)
-      
+            
       self.names.append(name)
+      self.add_unused_steps(new_scene)
       self.scenes.append(new_scene)
       self.create()
 
@@ -224,7 +224,7 @@ class All_Scenes(object):
     for step in steps:
       step = step.get('next_step')
       
-      if step != 'end':
+      if step != 'end' and not self.names.__contains__(step):
         self.steps.append(step)
     
   def check_scene(self):
@@ -247,7 +247,7 @@ class All_Scenes(object):
             self.scenes[index].show()
 
           except:
-            print("ОШИБКА!!!")
+            print(f"\nВнимание! Сцены {name} не существуют")
             self.check_scene()
             return
 
