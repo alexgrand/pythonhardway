@@ -7,6 +7,7 @@ def input_question(question):
 
   return answer
 
+
 class Raw_Scene(object):
   def __init__(self):
     self.scene = {}
@@ -76,7 +77,7 @@ class Raw_Scene(object):
 
   def put_steps(self, step_num = 1):
     input_step_text = input_question(f"Введите текст для шага № {step_num} >")
-    input_next_step = input_question("Введите название сцены, куда шаг ведет >")
+    input_next_step = input_question("Введите название сцены, куда шаг ведет. Если это последняя сцена, введите 'end'")
 
     if input_step_text == '' or input_next_step == '':
       print("ВВЕДИТЕ КОРРЕКТНЫЕ ДАННЫЕ.")
@@ -90,7 +91,7 @@ class Raw_Scene(object):
         step['text'] = f"\t{step_num}. {input_step_text}."
         step['next_step'] = input_next_step
 
-        is_next_step = input("Есть ли еще шаг? (y/n) >")
+        is_next_step = input_question("Есть ли еще шаг? (y/n) >")
         
         if is_next_step == 'y':
           step_num += 1
@@ -138,7 +139,7 @@ class Raw_Scene(object):
           fn = getattr(self, f"put_{func}")
           fn()
         except:
-          print("*" * 105)
+          print("=" * 20)
           print(f"\n\nПеременной {func} не существует. Введите правильное значение!")
           self.change_data()
           return
@@ -167,7 +168,7 @@ class Raw_Scene(object):
     return self.scene
         
   def show(self):
-    print("*" * 105)
+    print("\n","=" * 20, "\n")
     print("\t" + self.name)
     print(self.text)
 
@@ -184,30 +185,99 @@ class Raw_Scene(object):
 
 class All_Scenes(object):
   def __init__(self):
-    self.all_scenes = {}
+    self.scenes = []
+    self.steps = []
+    self.names = []
 
   def create(self):
-    make_new_scene = input_question('Создать новую сцену? (y/n)')
+    make_new_scene = input_question(f'Шаги квеста без сцены: {self.steps}\nСоздать новую сцену? (y/n)')
 
 
     if make_new_scene == 'y':
       new_scene = Raw_Scene()
       new_scene.make()
       name = new_scene.name
+
+      self.add_unused_steps(new_scene)
       
-      self.all_scenes[name] = new_scene.scene.get(name)
+      self.names.append(name)
+      self.scenes.append(new_scene)
       self.create()
 
     elif make_new_scene != 'n':
       self.create()
 
     else:
+      if len(self.steps) > 0:
+        print('ВНИМАНИЕ! У вас есть шаги, для которых не написаны сцены!')
+        self.create()
+      
+      self.check_scene()
+      return
+  
+  def add_unused_steps(self, scene):
+    if self.steps.__contains__(scene.name):
+      self.steps.remove(scene.name)
+
+    steps = list(scene.steps.values())
+
+    for step in steps:
+      step = step.get('next_step')
+      
+      if step != 'end':
+        self.steps.append(step)
+    
+  def check_scene(self):
+    check_scene = input_question('Желаете ли проверить какую либо сцену? (y/n)')
+
+    if check_scene == 'y':
+
+      print(f"Доступные сцены: {self.names}")
+      check_scene = input_question('Через пробел вводите сцены, которые хотите проверить. Либо нажмите enter, если все.')
+
+      if check_scene == '':
+        self.show()
+      
+      else:
+        check_scene = check_scene.split()
+
+        for name in check_scene:
+          try:
+            index = self.names.index(name)
+            self.scenes[index].show()
+
+          except:
+            print("ОШИБКА!!!")
+            self.check_scene()
+            return
+
+    elif check_scene != 'n':
+      self.check_scene()
+
+    else:
       return
 
-  def show(self):
-    print(self.all_scenes)
-    return self.all_scenes
+  # def change_scene(self):
+  #   scenes_to_change = change_scene.split()
 
+  #       for name in scenes_to_change:
+  #         try:
+  #           # найти сцену по name в self.scenes и запустить сцена.change_data
+  #           index = self.names.index(name)
+
+  #           self.scenes[index].change_data()
+
+  #         except:
+  #           # если сцены с таким именем нет - тогда выдать ошибку и заставить снова выбрать сцену для изменения через check_scene в конце return
+  #           print("=" * 20)
+  #           print(f"\n\n Сцены с именем {name} не существует.")
+  #           self.check_scene()
+  #           return
+
+  def show(self):
+    for scene in self.scenes:
+      scene.show()
+    
 
 
 all_scenes = All_Scenes()
