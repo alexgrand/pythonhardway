@@ -65,4 +65,3 @@ class File(object):
 
 
 file = File()
-print(file.get())
