@@ -124,7 +124,6 @@ class Raw_Scene(object):
         self.inventory[inv_name] = inv_amount
 
       print(f"Инвентарь сцены: {self.inventory}")
-      print("*" * 105)
       self.put_inventory()
     
     elif is_inventory == '' or is_inventory != 'n':
@@ -217,6 +216,7 @@ class All_Scenes(object):
         self.create()
       
       self.check_scene()
+      self.change_scene()
       return
   
   def add_unused_steps(self, scene):
@@ -243,9 +243,9 @@ class All_Scenes(object):
         self.show()
       
       else:
-        check_scene = check_scene.split()
+        scenes_to_check = check_scene.split()
 
-        for name in check_scene:
+        for name in scenes_to_check:
           try:
             index = self.names.index(name)
             self.scenes[index].show()
@@ -253,7 +253,8 @@ class All_Scenes(object):
           except:
             print(f"\nВнимание! Сцены {name} не существуют")
             self.check_scene()
-            return
+        
+        return
 
     elif check_scene != 'n':
       self.check_scene()
@@ -261,22 +262,37 @@ class All_Scenes(object):
     else:
       return
 
-  # def change_scene(self):
-  #   scenes_to_change = change_scene.split()
+  def change_scene(self):
+    change_scene = input_question("Желаете ли вы изменить какую либо сцену? (y/n) ")
 
-  #       for name in scenes_to_change:
-  #         try:
-  #           # найти сцену по name в self.scenes и запустить сцена.change_data
-  #           index = self.names.index(name)
+    if change_scene ==  'y':
+      print(f_string("Доступные сцены: "))
+      print(self.names)
+      change_scene = input_question("Какую сцену(ы) вы желаете изменить? Введите через пробел или нажмите enter")
 
-  #           self.scenes[index].change_data()
+      if change_scene == '':
+        for scene in self.scenes:
+          scene.change_data()
+      else:
+        scenes_to_change = change_scene.split()
+        
+        for name in scenes_to_change:
+          try:
+            index = self.names.index(name)
+            self.scenes[index].change_data()
+          
+          except:
+            print(f"ВНИМАНИЕ! {name} СЦЕНЫ НЕТ!")
+            self.change_scene()
+        
+        return
 
-  #         except:
-  #           # если сцены с таким именем нет - тогда выдать ошибку и заставить снова выбрать сцену для изменения через check_scene в конце return
-  #           print("=" * 20)
-  #           print(f"\n\n Сцены с именем {name} не существует.")
-  #           self.check_scene()
-  #           return
+      self.check_scene()
+      self.change_scene()
+    elif change_scene != 'n':
+      self.change_scene()
+    else:
+      return
 
   def show(self):
     for scene in self.scenes:
