@@ -318,7 +318,7 @@ class All_Scenes(object):
       scenes_dict = self.get()
       scenes_in_json = json.dumps(scenes_dict)
 
-      file = open(ask_quest_name, 'w')
+      file = open(f"quests/{ask_quest_name}.json", mode='w', encoding="utf-8")
       file.write(scenes_in_json)
       file.close()
 
