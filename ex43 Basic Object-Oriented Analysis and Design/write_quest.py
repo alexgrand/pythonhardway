@@ -303,8 +303,35 @@ class All_Scenes(object):
     for scene in self.scenes:
       scene.show()
 
+  def write_quest(self):
+    ask_quest_name = input_question("Введите название для написанного квеста.")
+
+    if ask_quest_name == '':
+      self.write_quest()
+    else:
+      is_correct = Raw_Scene.check_usr_input(Raw_Scene, ask_quest_name)
+
+      if not is_correct:
+        self.write_quest()
+        return
+
+      scenes_dict = self.get()
+      scenes_in_json = json.dumps(scenes_dict)
+
+      file = open(ask_quest_name, 'w')
+      file.write(scenes_in_json)
+      file.close()
+
+  def get(self):
+    json_dict = {}
+
+    for scene in self.scenes:
+      name, content = scene.get()
+      json_dict[name] = content
+
+    return json_dict
 
 
-all_scenes = All_Scenes()
-all_scenes.create()
-print(all_scenes.write_quest())
+scenes = All_Scenes()
+scenes.create()
+scenes.write_quest()
