@@ -1,4 +1,5 @@
 from sys import exit
+from read_quest import quest
 
 all_scenes = {
   'begining': {
@@ -124,6 +125,8 @@ all_scenes = {
     }
   },
 }
+
+all_scenes = quest.get()
 
 class Scene(object):
   def __init__(self, name, text, steps, inventory = {}):
