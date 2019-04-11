@@ -1,12 +1,16 @@
 import json
 
 def input_question(question):
-  question = f"|{question}|"
-  question = f"\n{'-' * len(question)}\n{question}\n{'-' * len(question)}\n"
+  question = f_string(question)
   answer = input(question)
 
   return answer
 
+def f_string(string):
+  string = f"|{string}|"
+  string = f"\n{'-' * len(string)}\n{string}\n{'-' * len(string)}\n"
+  
+  return string
 
 class Raw_Scene(object):
   def __init__(self):
@@ -62,7 +66,7 @@ class Raw_Scene(object):
       return True
     else:
       print("ВВЕДИТЕ КОРРЕКТНЫЕ ДАННЫЕ.")
-      print("*" * 105)
+      print("=" * 20)
       return False
     
   def put_text(self):
