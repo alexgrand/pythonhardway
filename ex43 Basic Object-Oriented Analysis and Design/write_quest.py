@@ -130,15 +130,18 @@ class Raw_Scene(object):
       self.put_inventory()
 
   def change_data(self):
-    must_be_changed = input_question("Что вы хотите изменить? Введите через пробел (name/text/inventory/steps) \nЕсли хотите поменять все, нажмите enter:\n")
+    must_be_changed = input_question("Что вы хотите изменить? Введите через пробел (name/text/inventory/steps) или нажмите enter:")
     
     if not must_be_changed:
+      self.inventory = {}
+      self.steps = {}
       self.make()
     else:
       must_be_changed = must_be_changed.split()
       
       for func in must_be_changed:
         try:
+          setattr(self, func, {})
           fn = getattr(self, f"put_{func}")
           fn()
         except:
@@ -185,6 +188,8 @@ class Raw_Scene(object):
     
     return self.scene
 
+  def get(self):
+    return list(self.scene.keys())[0], list(self.scene.values())[0]
 
 class All_Scenes(object):
   def __init__(self):
@@ -297,9 +302,9 @@ class All_Scenes(object):
   def show(self):
     for scene in self.scenes:
       scene.show()
-    
+
 
 
 all_scenes = All_Scenes()
 all_scenes.create()
-
+print(all_scenes.write_quest())
