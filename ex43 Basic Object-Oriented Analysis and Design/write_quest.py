@@ -234,7 +234,8 @@ class All_Scenes(object):
       step = step.get('next_step')
       
       if step != 'end' and not self.names.__contains__(step):
-        self.steps.append(step)
+        if not self.steps.__contains__(step):
+          self.steps.append(step)
     
   def check_scene(self):
     check_scene = input_question('Желаете ли проверить какую либо сцену? (y/n)')
