@@ -71,7 +71,7 @@ class Raw_Scene(object):
     return formatted_str
     
   def put_text(self):
-    user_input = input_question("Текст сцены? \n(вместо 'enter'и создания абзаца, пишите *n*) >")
+    user_input = input_question("Текст сцены? \n(вместо 'enter' и создания абзаца, пишите *n*) >")
     
     formatted_input = self.format_usr_text(user_input, 70)
     
@@ -378,8 +378,10 @@ class File(object):
     self.scenes = all_scenes
     return self.scenes
 
-
-    return self.text
+  def add(self):
+    self.read()
+    self.scenes.create()
+    self.write()
 
   def choose(self):
     available_quests = listdir(self.path)
@@ -420,6 +422,7 @@ class File(object):
     print("\t1. Написать новый Квест")
     print("\t2. Прочитать Квест.")
     print("\t3. Изменить сцены Квеста.")
+    print("\t4. Добавить сцены Квеста")
     user_action = input("> ")
 
     if user_action == '1':
@@ -429,6 +432,8 @@ class File(object):
       self.scenes.show()
     elif user_action == '3':
       self.change()
+    elif user_action == '4':
+      self.add()
     elif user_action == 'exit':
       return
     else:
