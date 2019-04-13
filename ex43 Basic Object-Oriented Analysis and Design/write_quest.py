@@ -153,6 +153,15 @@ class Raw_Scene(object):
       
       self.make(True)
 
+  def create(self):
+    self.scene[self.name] = {}
+    scene = self.scene[self.name]
+    scene['text'] = self.text
+    scene['inventory'] = self.inventory
+    scene['steps'] = self.steps
+
+    return self.scene
+
   def make(self, has_change = False):
     if not has_change:
       self.put_name()
@@ -160,12 +169,7 @@ class Raw_Scene(object):
       self.put_inventory()
       self.put_steps()
 
-      
-    self.scene[self.name] = {}
-    scene = self.scene[self.name]
-    scene['text'] = self.text
-    scene['inventory'] = self.inventory
-    scene['steps'] = self.steps
+      self.create()
 
     self.show()
 
@@ -239,12 +243,12 @@ class All_Scenes(object):
           self.steps.append(step)
     
   def check_scene(self):
-    check_scene = input_question('Желаете ли проверить какую либо сцену? (y/n)')
+    check_scene = input_question('Желаете ли прочитать какую либо сцену? (y/n)')
 
     if check_scene == 'y':
 
       print(f"Доступные сцены: {self.names}")
-      check_scene = input_question('Через пробел вводите сцены, которые хотите проверить. Либо нажмите enter, если все.')
+      check_scene = input_question('Через пробел вводите сцены, которые хотите прочитать. Либо нажмите enter, если все.')
 
       if check_scene == '':
         self.show()
@@ -354,7 +358,24 @@ class File(object):
     self.file = open(f"{self.path}{self.name}.json", mode='r', encoding='utf-8')
     self.text = json.loads(self.file.read())
 
+    keys = list(self.text.keys())
+    all_scenes = All_Scenes()
+
+    for key in keys:
+      content = self.text.get(key)
+      scene = Raw_Scene()
+      scene.name = key
+      scene.text = content.get('text')
+      scene.steps = content.get('steps')
+      scene.inventory = content.get('inventory')
+      scene.create()
+      
+      all_scenes.names.append(key)
+      all_scenes.scenes.append(scene)
     
+    self.scenes = all_scenes
+    return self.scenes
+
 
     return self.text
 
@@ -394,7 +415,7 @@ class File(object):
       self.write()
     elif user_action == '2':
       self.read()
-      print(self.text)
+      self.scenes.show()
     elif user_action == 'exit':
       return
     else:
