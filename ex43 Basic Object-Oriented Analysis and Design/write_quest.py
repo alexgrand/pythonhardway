@@ -12,6 +12,19 @@ def f_string(string):
   
   return string
 
+def check_usr_input(u_input):
+    print("\n","=" * 20, "\n")
+    print(u_input)
+
+    is_correct_input = input_question('Эти данные верны? (y/n)')
+
+    if is_correct_input == 'y':
+      return True
+    else:
+      print("ВВЕДИТЕ КОРРЕКТНЫЕ ДАННЫЕ.")
+      print("=" * 20)
+      return False
+
 class Raw_Scene(object):
   def __init__(self):
     self.scene = {}
@@ -23,7 +36,7 @@ class Raw_Scene(object):
   def put_name(self):
     name = input_question("Название сцены?")
 
-    if name != '' and self.check_usr_input(name):
+    if name != '' and check_usr_input(name):
       self.name = name
     else: 
       self.put_name()
@@ -55,26 +68,13 @@ class Raw_Scene(object):
     formatted_str += line + '\n'
 
     return formatted_str
-
-  def check_usr_input(self, u_input):
-    print("\n","=" * 20, "\n")
-    print(u_input)
-
-    is_correct_input = input_question('Эти данные верны? (y/n)')
-
-    if is_correct_input == 'y':
-      return True
-    else:
-      print("ВВЕДИТЕ КОРРЕКТНЫЕ ДАННЫЕ.")
-      print("=" * 20)
-      return False
     
   def put_text(self):
     user_input = input_question("Текст сцены? \n(вместо 'enter'и создания абзаца, пишите *n*) >")
     
     formatted_input = self.format_usr_text(user_input, 70)
     
-    if self.check_usr_input(formatted_input):
+    if check_usr_input(formatted_input):
       self.text = formatted_input
     else:
       self.put_text()
@@ -89,7 +89,7 @@ class Raw_Scene(object):
 
     else:
 
-      if self.check_usr_input(f"{input_step_text}:\n{input_next_step}"):
+      if check_usr_input(f"{input_step_text}:\n{input_next_step}"):
         self.steps[str(step_num)] = {}
         step = self.steps[str(step_num)]
         step['text'] = f"\t{step_num}. {input_step_text}."
@@ -120,7 +120,7 @@ class Raw_Scene(object):
           self.put_inventory()
 
 
-      if self.check_usr_input(f"{inv_name}: {inv_amount}"):
+      if check_usr_input(f"{inv_name}: {inv_amount}"):
         self.inventory[inv_name] = inv_amount
 
       print(f"Инвентарь сцены: {self.inventory}")
@@ -168,7 +168,7 @@ class Raw_Scene(object):
 
     self.show()
 
-    if not self.check_usr_input(''):
+    if not check_usr_input(''):
       self.change_data()
     
     return self.scene
@@ -310,7 +310,7 @@ class All_Scenes(object):
     if ask_quest_name == '':
       self.write_quest()
     else:
-      is_correct = Raw_Scene.check_usr_input(Raw_Scene, ask_quest_name)
+      is_correct = check_usr_input(Raw_Scene, ask_quest_name)
 
       if not is_correct:
         self.write_quest()
