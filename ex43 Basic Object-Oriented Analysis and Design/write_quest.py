@@ -1,4 +1,5 @@
 import json
+from os import listdir
 
 def input_question(question):
   question = f_string(question)
@@ -317,36 +318,74 @@ class All_Scenes(object):
 class File(object):
   def __init__(self):
     self.file = ''
+    self.path = 'quests/'
+    self.name = 'default'
     self.text = ''
     self.scenes = ''
 
-  def write(self):
+  def name_it(self):
     ask_quest_name = input_question("Введите название для написанного квеста.")
 
     if ask_quest_name == '':
-      self.write()
+      self.name_it()
     else:
       is_correct = check_usr_input(ask_quest_name)
 
       if not is_correct:
-        self.write()
+        self.name_it()
         return
+      else:
+        self.name = ask_quest_name
+    
+    return self.name
 
-      scenes_dict = self.scenes.get()
-      scenes_in_json = json.dumps(scenes_dict, ensure_ascii=False)
+  def write(self):
+    scenes_dict = self.scenes.get()
+    self.text = json.dumps(scenes_dict, ensure_ascii=False)
 
-      file = open(f"quests/{ask_quest_name}.json", mode='w', encoding="utf-8")
-      file.write(scenes_in_json)
-      file.close()
+    self.file = open(f"{self.path}{self.name}.json", mode='w', encoding="utf-8")
+    self.file.write(self.text)
+    self.file.close()
+
+    return self.text
   
+  def read(self):
+    self.choose()
+    self.file = open(f"{self.path}{self.name}.json", mode='r', encoding='utf-8')
+    self.text = json.loads(self.file.read())
+
+    return self.text
+
+  def choose(self):
+    available_quests = listdir(self.path)
+    quests = []
+
+    for quest in available_quests:
+      quests.append(quest.replace('.json', ''))
+
+    print(f_string("Доступные квесты: "))
+    print(quests)
+
+    self.name = input_question("Выберете квест")
+
+    if quests.__contains__(self.name):
+      return self.name
+    else:
+      print(f"Квеста '{self.name}' не существует! Введите правильное название квеста.")
+      self.choose()
+
   def create(self):
     self.scenes = All_Scenes()
     self.scenes.create()
+    self.name_it()
+
+    return self.scenes
     
   def action(self):
-    user_action = input_question("Выберите вариант > ")
+    user_action = input_question("Выберите вариант или exit > ")
 
 
 fl = File()
 fl.create()
 fl.write()
+fl.read()
