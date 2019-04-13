@@ -49,11 +49,13 @@ class File(object):
 
   def choose_quest(self):
     print(f_string("Доступные квесты: "))
-    print(self.get_quests())
+    quests = self.get_quests()
+    print(quests)
 
     self.name = input_question("Выберете квест, который хотите пройти.")
 
-    if self.open():
+    if quests.__contains__(self.name):
+      self.open()
       self.jsonify()
     else:
       print(f"Квеста '{self.name}' не существует! Введите правильное название квеста.")
