@@ -354,6 +354,8 @@ class File(object):
     self.file = open(f"{self.path}{self.name}.json", mode='r', encoding='utf-8')
     self.text = json.loads(self.file.read())
 
+    
+
     return self.text
 
   def choose(self):
@@ -382,10 +384,25 @@ class File(object):
     return self.scenes
     
   def action(self):
-    user_action = input_question("Выберите вариант или exit > ")
+    print(f_string("Выберите действие или напишите exit:"))
+    print("\t1. Написать новый Квест")
+    print("\t2. Прочитать Квест.")
+    user_action = input("> ")
+
+    if user_action == '1':
+      self.create()
+      self.write()
+    elif user_action == '2':
+      self.read()
+      print(self.text)
+    elif user_action == 'exit':
+      return
+    else:
+      self.action()
+      return
+
+    self.action()    
 
 
 fl = File()
-fl.create()
-fl.write()
-fl.read()
+fl.action()
