@@ -480,5 +480,4 @@ class File(object):
 
 
 fl = File()
-# scenes = fl.read()
 fl.action()
