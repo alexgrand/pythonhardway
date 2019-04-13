@@ -40,7 +40,7 @@ class File(object):
 
   def open(self):
     try:
-      file = open(f"quests/{self.name}.json", 'r')
+      file = open(f"quests/{self.name}.json", 'r', encoding='utf-8')
       file = file.read()
       self.file = file
       return file
