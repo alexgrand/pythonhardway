@@ -154,6 +154,7 @@ class Raw_Scene(object):
       self.make(True)
 
   def create(self):
+    self.scene = {}
     self.scene[self.name] = {}
     scene = self.scene[self.name]
     scene['text'] = self.text
@@ -169,7 +170,7 @@ class Raw_Scene(object):
       self.put_inventory()
       self.put_steps()
 
-      self.create()
+    self.create()
 
     self.show()
 
@@ -357,6 +358,7 @@ class File(object):
     self.choose()
     self.file = open(f"{self.path}{self.name}.json", mode='r', encoding='utf-8')
     self.text = json.loads(self.file.read())
+    self.file.close()
 
     keys = list(self.text.keys())
     all_scenes = All_Scenes()
@@ -402,20 +404,31 @@ class File(object):
     self.scenes.create()
     self.name_it()
 
+    self.write()
+
     return self.scenes
-    
+  
+  def change(self):
+    self.read()
+    self.scenes.change_scene()
+    self.write()
+
+    return self.text
+
   def action(self):
     print(f_string("Выберите действие или напишите exit:"))
     print("\t1. Написать новый Квест")
     print("\t2. Прочитать Квест.")
+    print("\t3. Изменить сцены Квеста.")
     user_action = input("> ")
 
     if user_action == '1':
       self.create()
-      self.write()
     elif user_action == '2':
       self.read()
       self.scenes.show()
+    elif user_action == '3':
+      self.change()
     elif user_action == 'exit':
       return
     else:
