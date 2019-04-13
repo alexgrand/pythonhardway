@@ -228,6 +228,7 @@ class All_Scenes(object):
       
       self.check_scene()
       self.change_scene()
+      self.remove_scene()
       return
   
   def add_unused_steps(self, scene):
@@ -306,6 +307,34 @@ class All_Scenes(object):
     else:
       return
 
+  def remove_scene(self):
+    to_remove = input_question('Желаете ли удалить какую либо сцену? (y/n)')
+
+    if to_remove == 'y':
+      print(f_string('Доступные сцены: '))
+      print(self.names)
+      to_remove = input_question('Напишите через пробел сцены, подлежащие удалению.')
+
+      scenes_to_remove = to_remove.split()
+
+      for name in scenes_to_remove:
+        if self.names.__contains__(name):
+          is_sure = input_question(f'Вы уверены что хотите удалить {name} из квеста? (y/n)')
+
+          if is_sure == 'y':
+            index = self.names.index(name)
+            self.scenes.pop(index)
+            self.names.pop()
+        else:
+          print(f_string(f"ВНИМАНИЕ! Сцены {name} не существует!"))
+          self.remove_scene()
+          return
+
+    elif to_remove != 'n':
+      self.remove_scene()
+    else:
+      return
+
   def show(self):
     for scene in self.scenes:
       scene.show()
@@ -318,7 +347,6 @@ class All_Scenes(object):
       json_dict[name] = content
 
     return json_dict
-
 
 class File(object):
   def __init__(self):
@@ -417,12 +445,18 @@ class File(object):
 
     return self.text
 
+  def remove(self):
+    self.read()
+    self.scenes.remove_scene()
+    self.write()
+
   def action(self):
     print(f_string("Выберите действие или напишите exit:"))
     print("\t1. Написать новый Квест")
     print("\t2. Прочитать Квест.")
     print("\t3. Изменить сцены Квеста.")
     print("\t4. Добавить сцены Квеста")
+    print("\t5. Удалить сцены из квеста")
     user_action = input("> ")
 
     if user_action == '1':
@@ -434,6 +468,8 @@ class File(object):
       self.change()
     elif user_action == '4':
       self.add()
+    elif user_action == '5':
+      self.remove()
     elif user_action == 'exit':
       return
     else:
@@ -444,4 +480,5 @@ class File(object):
 
 
 fl = File()
+# scenes = fl.read()
 fl.action()
