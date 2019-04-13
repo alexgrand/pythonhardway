@@ -317,32 +317,36 @@ class All_Scenes(object):
 class File(object):
   def __init__(self):
     self.file = ''
-    self.file_text = ''
+    self.text = ''
+    self.scenes = ''
 
-  def write_quest(self, dict_to_file):
+  def write(self):
     ask_quest_name = input_question("Введите название для написанного квеста.")
 
     if ask_quest_name == '':
-      self.write_quest()
+      self.write()
     else:
       is_correct = check_usr_input(ask_quest_name)
 
       if not is_correct:
-        self.write_quest()
+        self.write()
         return
 
-      scenes_dict = dict_to_file
+      scenes_dict = self.scenes.get()
       scenes_in_json = json.dumps(scenes_dict, ensure_ascii=False)
 
       file = open(f"quests/{ask_quest_name}.json", mode='w', encoding="utf-8")
       file.write(scenes_in_json)
       file.close()
+  
+  def create(self):
+    self.scenes = All_Scenes()
+    self.scenes.create()
+    
+  def action(self):
+    user_action = input_question("Выберите вариант > ")
 
-
-
-scenes = All_Scenes()
-scenes.create()
-scenes_dict = scenes.get()
 
 fl = File()
-fl.write_quest(scenes_dict)
+fl.create()
+fl.write()
