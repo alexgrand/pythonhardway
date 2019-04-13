@@ -453,6 +453,10 @@ class File(object):
     self.read()
     self.scenes.remove_scene()
     self.write()
+  
+  def start(self):
+    from space_rangers import game
+    return 
 
   def action(self):
     print(f_string("Выберите действие или напишите exit:"))
@@ -461,6 +465,7 @@ class File(object):
     print("\t3. Изменить сцены Квеста.")
     print("\t4. Добавить сцены Квеста")
     print("\t5. Удалить сцены из квеста")
+    print("\t6. Пройти Квест")
     user_action = input("> ")
 
     if user_action == '1':
@@ -474,6 +479,8 @@ class File(object):
       self.add()
     elif user_action == '5':
       self.remove()
+    elif user_action =='6':
+      self.start()
     elif user_action == 'exit':
       return
     else:
