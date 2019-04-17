@@ -455,7 +455,7 @@ class File(object):
     self.write()
   
   def start(self):
-    from space_rangers import game
+    from v2 import game
     return
 
   def show(self):
