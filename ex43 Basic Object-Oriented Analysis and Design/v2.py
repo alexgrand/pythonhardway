@@ -8,32 +8,55 @@ class Game(object):
     self.u_name = input("Ваше имя? ")
     self.scene = {}
     self.current_scene = 'begining'
+    self.pre_scene = self.current_scene
     self.next_scene = ''
+    self.text = ''
     self.inventory = {}
     self.steps = {}
   
   def start(self):
-
-    while self.next_scene != 'end':
-      self.enter()
+    self.enter()
+    self.exit()
+    return
   
   def enter(self):
+    if self.next_scene == 'end':
+      self.exit()
+
     self.get_data()
+    self.print()
 
-    self.print_text()
-    self.print_inventory()
-    self.print_steps()
+    u_input = input("> ")
 
-    self.exit()
+    if not self.steps.__contains__(u_input) and u_input != 'exit':
+      print(f_string("Введите верный шаг или exit!"))
+      self.pre_scene = self.current_scene
+      self.enter()
+      return
+
+    elif u_input == 'exit':
+      self.exit()
+      return
+
+    self.next(u_input)
+    self.enter()
 
   def get_data(self):
-    self.get_scene()
-    self.get_inventory()
-    self.get_steps()
+    if self.current_scene != self.pre_scene or self.current_scene == 'begining':
+      self.get_scene()
+      self.get_text()
+      self.get_inventory()
+      self.get_steps()
+
+    return self.scene
 
   def get_scene(self):
     self.scene = self.scenes.get().get(self.current_scene)
     return self.scene
+
+  def get_text(self):
+    self.text = self.scene.get('text')
+    return self.text
 
   def get_inventory(self):
     inventory = self.scene.get('inventory')
@@ -51,15 +74,19 @@ class Game(object):
     self.steps = self.scene.get('steps')
     return self.steps
 
-  def print_text(self):
-    text = self.scene.get('text')
-    text = text.format(self.u_name)
+  def print(self):
+    self.print_text()
+    self.print_inventory()
+    self.print_steps()
 
-    print(text)
+    return
+
+  def print_text(self):
+    self.text = self.text.format(self.u_name)
+
+    print(self.text)
   
   def print_inventory(self):
-    self.get_inventory()
-
     if len(self.inventory) > 0:
       print("\t\tУ вас есть:")
 
@@ -71,6 +98,12 @@ class Game(object):
   def print_steps(self):
     for step in self.steps:
       print(self.steps[step].get('text'))
+
+  def next(self, u_choice):
+    self.pre_scene = self.current_scene
+    self.next_scene = self.steps.get(u_choice).get('next_step')
+    self.current_scene = self.next_scene
+    return
 
   def exit(self):
     exit(1)
