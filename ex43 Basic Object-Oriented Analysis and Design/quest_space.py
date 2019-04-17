@@ -9,6 +9,7 @@ class Raw_Scene(object):
     self.text = ''
     self.steps = {}
     self.inventory = {}
+    self.status = {}
   
   def put_name(self):
     name = input_question("Название сцены?")
@@ -106,12 +107,32 @@ class Raw_Scene(object):
     elif is_inventory == '' or is_inventory != 'n':
       self.put_inventory()
 
+  def put_status(self):
+    u_input = input_question("Есть ли(еще) характеристики в этой сцене? (y/n)")
+    is_yes(u_input, self.put_status)
+
+    st_name = input_question("Введите название состояния.")
+
+    if self.status.__contains__(st_name):
+      print(f"\nВНИМАНИЕ! Состояние {st_name} уже существует!\n")
+      self.put_status()
+      return 
+
+    st_text = input_question("Текст состояния.")
+    u_input = input_question("Эти данные верны?(y/n)")
+
+    if is_yes(u_input, self.put_status):
+      self.status[st_name] = st_text
+    
+    return st_name, st_text
+
   def change_data(self):
-    must_be_changed = input_question("Что вы хотите изменить? Введите через пробел (name/text/inventory/steps) или нажмите enter:")
+    must_be_changed = input_question("Что вы хотите изменить? Введите через пробел (name/text/inventory/steps/status) или нажмите enter:")
     
     if must_be_changed == '':
       self.inventory = {}
       self.steps = {}
+      self.status = {}
       self.make()
     else:
       must_be_changed = must_be_changed.split()
@@ -136,6 +157,7 @@ class Raw_Scene(object):
     scene['text'] = self.text
     scene['inventory'] = self.inventory
     scene['steps'] = self.steps
+    scene['status'] = self.status
 
     return self.scene
 
@@ -145,6 +167,7 @@ class Raw_Scene(object):
       self.put_text()
       self.put_inventory()
       self.put_steps()
+      self.put_status()
 
     self.create()
 
@@ -159,6 +182,11 @@ class Raw_Scene(object):
     print("\n","=" * 20, "\n")
     print("\t" + self.name)
     print(self.text)
+
+    for state in self.status:
+      print("\t", state, f"[{self.status[state]}]") 
+
+    print("\n")
 
     for item in self.inventory:
       print("\t", item, f"[{self.inventory[item]}]")
@@ -374,6 +402,7 @@ class File(object):
       scene.text = content.get('text')
       scene.steps = content.get('steps')
       scene.inventory = content.get('inventory')
+      scene.status = content.get('status')
       scene.create()
       
       all_scenes.names.append(key)
@@ -468,65 +497,5 @@ class File(object):
 
     self.action()    
 
-class Status(object):
-  def __init__(self):
-    self.current = {}
-  
-  def add(self):
-    st_name = input_question("Введите название состояния.")
-
-    if self.has(st_name):
-      print(f"\nВНИМАНИЕ! Состояние {st_name} уже существует!\n")
-      self.add()
-      return 
-
-    st_text = input_question("Текст состояния.")
-    u_input = input_question("Эти данные верны?(y/n)")
-
-    if is_yes(u_input, self.add):
-      self.current[st_name] = st_text
-    
-    return st_name, st_text
-
-  def change(self):
-    print(f_string("Доступные состояния:"))
-    print(self.current)
-
-    u_input = input_question("Введите через пробел, что вы хотите изменить либо 'enter', если все. Это удалит эти сцены")
-
-    if u_input == '':
-      self.current = {}
-      self.add()
-    else:
-      u_input = u_input.split()
-
-      for name in u_input:
-        if self.has(name):
-          self.remove(name)
-          self.add()
-        else:
-          print(f"\nВнимание состояния {name} не существует!")
-          self.change()
-          return
-    return True
-
-  def get(self):
-    return self.current
-
-  def has(self, name):
-    return self.current.__contains__(name)
-
-  def remove(self, name):
-    if self.has(name):
-      self.current.pop(name)
-      return True
-    else:
-      print(f"\n Состояние {name} удалить невозможно. Отсутствует.")
-      return
 
 fl = File()
-
-status = Status()
-print(status.add())
-print(status.change())
-print(status.get())
