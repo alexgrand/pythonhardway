@@ -109,21 +109,21 @@ class Raw_Scene(object):
   def change_data(self):
     must_be_changed = input_question("Что вы хотите изменить? Введите через пробел (name/text/inventory/steps) или нажмите enter:")
     
-    if not must_be_changed:
+    if must_be_changed == '':
       self.inventory = {}
       self.steps = {}
       self.make()
     else:
       must_be_changed = must_be_changed.split()
       
-      for func in must_be_changed:
+      for prop in must_be_changed:
         try:
-          setattr(self, func, {})
-          fn = getattr(self, f"put_{func}")
+          setattr(self, prop, {})
+          fn = getattr(self, f"put_{prop}")
           fn()
         except:
           print("=" * 20)
-          print(f"\n\nПеременной {func} не существует. Введите правильное значение!")
+          print(f"\n\nПеременной {prop} не существует. Введите правильное значение!")
           self.change_data()
           return
       
@@ -468,5 +468,65 @@ class File(object):
 
     self.action()    
 
+class Status(object):
+  def __init__(self):
+    self.current = {}
+  
+  def add(self):
+    st_name = input_question("Введите название состояния.")
+
+    if self.has(st_name):
+      print(f"\nВНИМАНИЕ! Состояние {st_name} уже существует!\n")
+      self.add()
+      return 
+
+    st_text = input_question("Текст состояния.")
+    u_input = input_question("Эти данные верны?(y/n)")
+
+    if is_yes(u_input, self.add):
+      self.current[st_name] = st_text
+    
+    return st_name, st_text
+
+  def change(self):
+    print(f_string("Доступные состояния:"))
+    print(self.current)
+
+    u_input = input_question("Введите через пробел, что вы хотите изменить либо 'enter', если все. Это удалит эти сцены")
+
+    if u_input == '':
+      self.current = {}
+      self.add()
+    else:
+      u_input = u_input.split()
+
+      for name in u_input:
+        if self.has(name):
+          self.remove(name)
+          self.add()
+        else:
+          print(f"\nВнимание состояния {name} не существует!")
+          self.change()
+          return
+    return True
+
+  def get(self):
+    return self.current
+
+  def has(self, name):
+    return self.current.__contains__(name)
+
+  def remove(self, name):
+    if self.has(name):
+      self.current.pop(name)
+      return True
+    else:
+      print(f"\n Состояние {name} удалить невозможно. Отсутствует.")
+      return
 
 fl = File()
+
+status = Status()
+print(status.add())
+print(status.change())
+print(status.get())
