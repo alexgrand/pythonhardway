@@ -1,3 +1,5 @@
+from sys import exit
+
 def input_question(question):
   question = f_string(question)
   answer = input(question)
@@ -18,6 +20,9 @@ def check_usr_input(u_input):
 
     if is_correct_input == 'y':
       return True
+    elif is_correct_input == 'exit':
+      exit(1)
+      return False
     else:
       print("ВВЕДИТЕ КОРРЕКТНЫЕ ДАННЫЕ.")
       print("=" * 20)
@@ -26,6 +31,9 @@ def check_usr_input(u_input):
 def is_yes(u_input, fn):
   if u_input == 'y':
     return True
+  elif u_input == 'exit':
+    exit(1)
+    return
   elif u_input != 'n':
     fn()
     return
