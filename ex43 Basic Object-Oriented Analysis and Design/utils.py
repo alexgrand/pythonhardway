@@ -22,3 +22,12 @@ def check_usr_input(u_input):
       print("ВВЕДИТЕ КОРРЕКТНЫЕ ДАННЫЕ.")
       print("=" * 20)
       return False
+
+def is_yes(u_input, fn):
+  if u_input == 'y':
+    return True
+  elif u_input != 'n':
+    fn()
+    return
+  else:
+    return
