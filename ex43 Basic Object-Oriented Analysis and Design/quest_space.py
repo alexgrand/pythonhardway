@@ -456,7 +456,11 @@ class File(object):
   
   def start(self):
     from space_rangers import game
-    return 
+    return
+
+  def show(self):
+    self.read()
+    self.scenes.show()
 
   def action(self):
     print(f_string("Выберите действие или напишите exit:"))
@@ -471,8 +475,7 @@ class File(object):
     if user_action == '1':
       self.create()
     elif user_action == '2':
-      self.read()
-      self.scenes.show()
+      self.show()
     elif user_action == '3':
       self.change()
     elif user_action == '4':
