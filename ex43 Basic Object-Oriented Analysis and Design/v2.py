@@ -69,6 +69,9 @@ class Game(object):
         self.inventory[item] = inventory[item]
       else:
         self.inventory[item] += inventory[item]
+
+        if self.inventory[item] <= 0:
+          self.inventory.pop(item)
     
     return self.inventory
   
