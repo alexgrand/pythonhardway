@@ -13,6 +13,7 @@ class Game(object):
     self.text = ''
     self.inventory = {}
     self.steps = {}
+    self.status = {}
   
   def start(self):
     self.enter()
@@ -47,6 +48,7 @@ class Game(object):
       self.get_text()
       self.get_inventory()
       self.get_steps()
+      self.get_status()
 
     return self.scene
 
@@ -74,8 +76,16 @@ class Game(object):
     self.steps = self.scene.get('steps')
     return self.steps
 
+  def get_status(self):
+    status = self.scene.get('status')
+    properties = status.keys()
+
+    for name in properties:
+      self.status[name] = status[name]
+
   def print(self):
     self.print_text()
+    self.print_status()
     self.print_inventory()
     self.print_steps()
 
@@ -86,6 +96,11 @@ class Game(object):
 
     print(self.text)
   
+  def print_status(self):
+    if len(self.status) > 0:
+      for status in self.status:
+        print(f"\t{self.status[status]}")
+
   def print_inventory(self):
     if len(self.inventory) > 0:
       print("\t\tУ вас есть:")
