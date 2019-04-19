@@ -87,6 +87,7 @@ class Game(object):
       self.status[name] = status[name]
 
   def print(self):
+    print("=" * 70)
     self.print_text()
     self.print_status()
     self.print_inventory()
@@ -109,7 +110,10 @@ class Game(object):
       print("\t\tУ вас есть:")
 
       for item in self.inventory:
-        print(f"\t{item}: {self.inventory[item]}")
+        if self.inventory[item] > 1:
+          print(f"\t{item}: {self.inventory[item]}")
+        else:
+          print(f"\t{item}")      
     
       print("\n")
   
