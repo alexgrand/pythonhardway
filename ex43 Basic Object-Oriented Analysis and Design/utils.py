@@ -4,6 +4,9 @@ def input_question(question):
   question = f_string(question)
   answer = input(question)
 
+  if answer == 'exit':
+    exit(1)
+
   return answer
 
 def f_string(string):
