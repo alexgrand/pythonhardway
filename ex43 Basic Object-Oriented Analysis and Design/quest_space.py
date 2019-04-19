@@ -109,7 +109,8 @@ class Raw_Scene(object):
 
   def put_status(self):
     u_input = input_question("Есть ли(еще) характеристики в этой сцене? (y/n)")
-    is_yes(u_input, self.put_status)
+    if not is_yes(u_input, self.put_status):
+      return
 
     st_name = input_question("Введите название состояния.")
 
@@ -119,12 +120,15 @@ class Raw_Scene(object):
       return 
 
     st_text = input_question("Текст состояния.")
+
+    print("\n", st_name, ": ", st_text)
     u_input = input_question("Эти данные верны?(y/n)")
 
     if is_yes(u_input, self.put_status):
       self.status[st_name] = st_text
+      self.put_status()
+      return st_name, st_text
     
-    return st_name, st_text
 
   def change_data(self):
     must_be_changed = input_question("Что вы хотите изменить? Введите через пробел (name/text/inventory/steps/status) или нажмите enter:")
