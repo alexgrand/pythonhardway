@@ -21,15 +21,16 @@ class Lexicon(object):
         sentence = []
 
         for word in u_str:
-            l_word = word.lower()
-            if not self.convert_number(word):
-                key = self.words.get(l_word)
+            conv_word = word.lower()
+            conv_num = self.convert_number(word)
+            if not conv_num:
+                key = self.words.get(conv_word)
                 if key:
-                    sentence.append((key, l_word))
+                    sentence.append((key, conv_word))
                 else:
                     sentence.append(('error', word))
             else:
-                sentence.append(('number', self.convert_number(word)))
+                sentence.append(('number', conv_num))
 
         return sentence
 
