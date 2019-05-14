@@ -4,8 +4,8 @@ from ex47.game import Room
 
 def test_room():
     gold = Room("GoldRoom",
-                """This room has gold in it you can grab.
-                There's a door to the north""")
+                """This room has gold in it you can grab. There's a
+                door to the north.""")
     assert_equal(gold.name, "GoldRoom")
     assert_equal(gold.paths, {})
 
@@ -21,7 +21,7 @@ def test_room_paths():
 
 
 def test_map():
-    start = Room("Start", "You can get west and down a hole.")
+    start = Room("Start", "You can go west and down a hole.")
     west = Room("Trees", "There are trees here, you can go east.")
     down = Room("Dungeon", "It's dark down here, you can go up.")
 

@@ -1,8 +1,7 @@
 try:
-    from setuptools import setup
+    from setuputils import setuputils
 except ImportError:
     from distutils.core import setup
-
 
 config = {
     'description': 'My Project',
