@@ -71,3 +71,14 @@ class TestLexicon(unittest.TestCase):
             ('noun', 'princess')
         ]
         self.assertEqual(result, should_be)
+
+    def test_letterCase(self):
+        """
+        Test input for different capitalization and case
+        """
+        data = "Bear EaT PRINCESS"
+        result = lexicon.scan(data)
+        should_be = [
+            ('noun', 'bear'), ('verb', 'eat'), ('noun', 'princess')
+        ]
+        self.assertEqual(result, should_be)
