@@ -82,3 +82,6 @@ class TestLexicon(unittest.TestCase):
             ('noun', 'bear'), ('verb', 'eat'), ('noun', 'princess')
         ]
         self.assertEqual(result, should_be)
+
+if __name__ == '__main__':
+    unittest.main()
