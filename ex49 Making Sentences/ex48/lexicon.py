@@ -6,7 +6,8 @@ class Lexicon(object):
             'left': 'direction', 'right': 'direction', 'back': 'direction',
             'go': 'verb', 'stop': 'verb', 'kill': 'verb', 'eat': 'verb',
             'the': 'stop', 'in': 'stop', 'of': 'stop', 'from': 'stop',
-            'at': 'stop', 'it': 'stop', 'door': 'noun', 'bear': 'noun',
+            'and': 'stop', 'at': 'stop', 'it': 'stop',
+            'door': 'noun', 'bear': 'noun',
             'princess': 'noun', 'cabinet': 'noun'
         }
 
