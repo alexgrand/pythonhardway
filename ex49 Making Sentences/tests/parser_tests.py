@@ -112,5 +112,29 @@ class TestMatch(unittest.TestCase):
         should_be = None
         self.assertEqual(result, should_be)
 
+
+class TestSkip(unittest.TestCase):
+    def test_with_correct(self):
+        """
+        Test 'skip' with 'word_type' that passes
+        """
+        word_list = [('noun', 'bear'), ('verb', 'eat')]
+        word_type = 'noun'
+        skip(word_list, word_type)
+        result = match(word_list, 'verb')
+        should_be = ('verb', 'eat')
+        self.assertEqual(result, should_be)
+
+    def test_with_wrong(self):
+        """
+        Test 'skip' with 'word_type' that doesn't pass
+        """
+        word_list = [('noun', 'bear'), ('verb', 'eat')]
+        word_type = 'verb'
+        skip(word_list, word_type)
+        result = match(word_list, 'verb')
+        should_be = None
+        self.assertEqual(result, should_be)
+
 if __name__ == "__main__":
     unittest.main()
