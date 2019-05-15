@@ -39,7 +39,8 @@ class TestSentence(unittest.TestCase):
         """
         Test Sentence's args
         """
-        subject, verb, obj = ('noun', 'player'), ('verb', 'run'), ('direction', 'north')
+        subject, verb, obj = ('noun', 'player'), ('verb', 'run'), ('direction',
+                                                                   'north')
         sent = Sentence(subject, verb, obj)
         result = sent.subject, sent.verb, sent.object
         should_be = ('player', 'run', 'north')
@@ -56,11 +57,27 @@ class TestParseSentence(unittest.TestCase):
             ('noun', 'bear'), ('verb', 'run'), ('direction', 'north')
         )
         sentence1 = parse_sentence(data)
-        
-        result = [sentence1.subject, sentence1.verb, sentence1.object]
-        should_be = [sentence.subject, sentence.verb, sentence.object]
+
+        result = sentence1.subject, sentence1.verb, sentence1.object
+        should_be = sentence.subject, sentence.verb, sentence.object
 
         self.assertEqual(result, should_be)
+
+
+class TestPeek(unittest.TestCase):
+    def test_peek(self):
+        """
+        Test peek fn
+        """
+        data1 = [('noun', 'bear'), ('verb', 'eat')]
+        result1 = peek(data1)
+        should_be_1 = 'noun'
+        self.assertEqual(result1, should_be_1)
+
+        data2 = []
+        result2 = peek(data2)
+        should_be_2 = None
+        self.assertEqual(result2, should_be_2)
 
 if __name__ == "__main__":
     unittest.main()
