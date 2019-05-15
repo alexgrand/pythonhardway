@@ -5,7 +5,7 @@ from ex49.parser import *
 class TestException(unittest.TestCase):
     def test_parse_subject(self):
         """
-        Test exception for 'parse_subject'
+        Test exception for 'Parse.subject'
         """
         data = [
             ('stop', 'the'), ('direction', 'north'), ('noun', 'bear')
@@ -14,7 +14,7 @@ class TestException(unittest.TestCase):
 
     def test_parse_verb(self):
         """
-        Test exception for 'parse_verb'
+        Test exception for 'Parse.verb'
         """
         data = [
             ('noun', 'bear')
@@ -23,7 +23,7 @@ class TestException(unittest.TestCase):
 
     def test_parse_object(self):
         """
-        Test exception for 'parse_object'
+        Test exception for 'Parse.object'
         """
         data = [
             ('verb', 'run')
@@ -47,12 +47,10 @@ class TestSentence(unittest.TestCase):
 class TestParseSentence(unittest.TestCase):
     def test_parse_sentence(self):
         """
-        Test 'parse_sentece'
+        Test 'Parse.sentence'
         """
         data = [('noun', 'bear'), ('verb', 'run'), ('direction', 'north')]
-        sentence = Sentence(
-            ('noun', 'bear'), ('verb', 'run'), ('direction', 'north')
-        )
+        sentence = Sentence(data[0], data[1], data[2])
         parse = Parse()
         sentence1 = parse.sentence(data)
 
