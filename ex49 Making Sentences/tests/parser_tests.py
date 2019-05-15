@@ -10,7 +10,7 @@ class TestException(unittest.TestCase):
         data = [
             ('stop', 'the'), ('direction', 'north'), ('noun', 'bear')
         ]
-        self.assertRaises(ParserError, parse_subject, data)
+        self.assertRaises(ParserError, parse.subject, data)
 
     def test_parse_verb(self):
         """
@@ -19,7 +19,7 @@ class TestException(unittest.TestCase):
         data = [
             ('noun', 'bear')
         ]
-        self.assertRaises(ParserError, parse_verb, data)
+        self.assertRaises(ParserError, parse.verb, data)
 
     def test_parse_object(self):
         """
@@ -28,7 +28,7 @@ class TestException(unittest.TestCase):
         data = [
             ('verb', 'run')
         ]
-        self.assertRaises(ParserError, parse_object, data)
+        self.assertRaises(ParserError, parse.object, data)
 
 
 class TestSentence(unittest.TestCase):
@@ -53,7 +53,7 @@ class TestParseSentence(unittest.TestCase):
         sentence = Sentence(
             ('noun', 'bear'), ('verb', 'run'), ('direction', 'north')
         )
-        sentence1 = parse_sentence(data)
+        sentence1 = parse.sentence(data)
 
         result = sentence1.subject, sentence1.verb, sentence1.object
         should_be = sentence.subject, sentence.verb, sentence.object
