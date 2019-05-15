@@ -8,7 +8,8 @@ class Lexicon(object):
             'eat': 'verb', 'to': 'stop', 'the': 'stop', 'in': 'stop',
             'of': 'stop', 'from': 'stop', 'and': 'stop', 'at': 'stop',
             'it': 'stop', 'door': 'noun', 'bear': 'noun',
-            'princess': 'noun', 'cabinet': 'noun'
+            'princess': 'noun', 'cabinet': 'noun', 'honey': 'noun',
+            'a': 'stop'
         }
 
     def convert_number(self, u_str):
