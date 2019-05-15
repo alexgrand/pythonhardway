@@ -5,7 +5,7 @@ from ex49.parser import *
 class TestException(unittest.TestCase):
     def test_parse_subject(self):
         """
-        Test exception for parse_subject
+        Test exception for 'parse_subject'
         """
         data1 = [
             ('stop', 'the'), ('direction', 'north'), ('noun', 'bear')
@@ -15,7 +15,7 @@ class TestException(unittest.TestCase):
 
     def test_parse_verb(self):
         """
-        Test exception for parse_verb
+        Test exception for 'parse_verb'
         """
         data = [
             ('noun', 'bear')
@@ -25,7 +25,7 @@ class TestException(unittest.TestCase):
 
     def test_parse_object(self):
         """
-        Test exception for parse_object
+        Test exception for 'parse_object'
         """
         data = [
             ('verb', 'run')
@@ -50,7 +50,7 @@ class TestSentence(unittest.TestCase):
 class TestParseSentence(unittest.TestCase):
     def test_parse_sentence(self):
         """
-        Test parse_sentece
+        Test 'parse_sentece'
         """
         data = [('noun', 'bear'), ('verb', 'run'), ('direction', 'north')]
         sentence = Sentence(
@@ -65,19 +65,52 @@ class TestParseSentence(unittest.TestCase):
 
 
 class TestPeek(unittest.TestCase):
-    def test_peek(self):
+    def test_peek_correct(self):
         """
-        Test peek fn
+        Test 'peek' with correct 'word_list'
         """
-        data1 = [('noun', 'bear'), ('verb', 'eat')]
-        result1 = peek(data1)
-        should_be_1 = 'noun'
-        self.assertEqual(result1, should_be_1)
+        data = [('noun', 'bear'), ('verb', 'eat')]
+        result = peek(data)
+        should_be = 'noun'
+        self.assertEqual(result, should_be)
 
-        data2 = []
-        result2 = peek(data2)
-        should_be_2 = None
-        self.assertEqual(result2, should_be_2)
+    def test_peek_empty(self):
+        """
+        Test 'peek' with empty 'word_list'
+        """
+        data = []
+        result = peek(data)
+        should_be = None
+        self.assertEqual(result, should_be)
+
+
+class TestMatch(unittest.TestCase):
+    def test_match_correct(self):
+        """
+        Test 'match' with correct 'word_list'
+        """
+        data = [('noun', 'bear'), ('verb', 'run')]
+        result = match(data, 'noun')
+        should_be = ('noun', 'bear')
+        self.assertEqual(result, should_be)
+
+    def test_match_wrong(self):
+        """
+        Test 'match' with wrong 'word_list'
+        """
+        data = [('noun', 'bear'), ('verb', 'run')]
+        result = match(data, 'verb')
+        should_be = None
+        self.assertEqual(result, should_be)
+
+    def test_match_empty(self):
+        """
+        Test 'match' with empty 'word_list'
+        """
+        data = []
+        result = match(data, 'noun')
+        should_be = None
+        self.assertEqual(result, should_be)
 
 if __name__ == "__main__":
     unittest.main()
