@@ -72,6 +72,3 @@ class Parse(object):
             return ('noun', 'player')
         else:
             raise ParserError("Expected a verb next.")
-
-
-parse = Parse()
