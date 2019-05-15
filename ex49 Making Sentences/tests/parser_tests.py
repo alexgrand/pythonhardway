@@ -7,11 +7,10 @@ class TestException(unittest.TestCase):
         """
         Test exception for 'parse_subject'
         """
-        data1 = [
+        data = [
             ('stop', 'the'), ('direction', 'north'), ('noun', 'bear')
         ]
-        with self.assertRaises(ParserError):
-            parse_subject(data1)
+        self.assertRaises(ParserError, parse_subject, data)
 
     def test_parse_verb(self):
         """
@@ -20,8 +19,7 @@ class TestException(unittest.TestCase):
         data = [
             ('noun', 'bear')
         ]
-        with self.assertRaises(ParserError):
-            parse_verb(data)
+        self.assertRaises(ParserError, parse_verb, data)
 
     def test_parse_object(self):
         """
@@ -30,8 +28,7 @@ class TestException(unittest.TestCase):
         data = [
             ('verb', 'run')
         ]
-        with self.assertRaises(ParserError):
-            parse_object(data)
+        self.assertRaises(ParserError, parse_object, data)
 
 
 class TestSentence(unittest.TestCase):
