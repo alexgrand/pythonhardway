@@ -35,42 +35,43 @@ def skip(word_list, word_type):
         match(word_list, word_type)
 
 
-def parse_verb(word_list):
-    skip(word_list, 'stop')
+class Parse(object):
+    def sentence(self, word_list):
+        subj = self.subject(word_list)
+        verb = self.verb(word_list)
+        obj = self.object(word_list)
 
-    if peek(word_list) == 'verb':
-        return match(word_list, 'verb')
-    else:
-        raise ParserError("Expected a verb next.")
+        return Sentence(subj, verb, obj)
+
+    def verb(self, word_list):
+        skip(word_list, 'stop')
+
+        if peek(word_list) == 'verb':
+            return match(word_list, 'verb')
+        else:
+            raise ParserError("Expected a verb next.")
+
+    def object(self, word_list):
+        skip(word_list, 'stop')
+        next_word = peek(word_list)
+
+        if next_word == 'noun':
+            return match(word_list, 'noun')
+        elif next_word == 'direction':
+            return match(word_list, 'direction')
+        else:
+            raise ParserError("Expected a noun or direction next.")
+
+    def subject(self, word_list):
+        skip(word_list, 'stop')
+        next_word = peek(word_list)
+
+        if next_word == 'noun':
+            return match(word_list, 'noun')
+        elif next_word == 'verb':
+            return ('noun', 'player')
+        else:
+            raise ParserError("Expected a verb next.")
 
 
-def parse_object(word_list):
-    skip(word_list, 'stop')
-    next_word = peek(word_list)
-
-    if next_word == 'noun':
-        return match(word_list, 'noun')
-    elif next_word == 'direction':
-        return match(word_list, 'direction')
-    else:
-        raise ParserError("Expected a noun or direction next.")
-
-
-def parse_subject(word_list):
-    skip(word_list, 'stop')
-    next_word = peek(word_list)
-
-    if next_word == 'noun':
-        return match(word_list, 'noun')
-    elif next_word == 'verb':
-        return ('noun', 'player')
-    else:
-        raise ParserError("Expected a verb next.")
-
-
-def parse_sentence(word_list):
-    subj = parse_subject(word_list)
-    verb = parse_verb(word_list)
-    obj = parse_object(word_list)
-
-    return Sentence(subj, verb, obj)
+parse = Parse()
