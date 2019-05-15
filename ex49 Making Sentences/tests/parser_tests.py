@@ -1,5 +1,6 @@
 import unittest
 from ex49.parser import *
+from ex48.lexicon import lexicon
 
 
 class TestException(unittest.TestCase):
@@ -7,27 +8,21 @@ class TestException(unittest.TestCase):
         """
         Test exception for 'Parse.subject'
         """
-        data = [
-            ('stop', 'the'), ('direction', 'north'), ('noun', 'bear')
-        ]
+        data = lexicon.scan('the north bear')
         self.assertRaises(ParserError, Parse.subject, Parse, data)
 
     def test_parse_verb(self):
         """
         Test exception for 'Parse.verb'
         """
-        data = [
-            ('noun', 'bear')
-        ]
+        data = lexicon.scan('bear')
         self.assertRaises(ParserError, Parse.verb, Parse, data)
 
     def test_parse_object(self):
         """
         Test exception for 'Parse.object'
         """
-        data = [
-            ('verb', 'run')
-        ]
+        data = lexicon.scan('run')
         self.assertRaises(ParserError, Parse.object, Parse, data)
 
 
@@ -36,8 +31,7 @@ class TestSentence(unittest.TestCase):
         """
         Test Sentence's args
         """
-        subject, verb, obj = ('noun', 'player'), ('verb', 'run'), ('direction',
-                                                                   'north')
+        subject, verb, obj = lexicon.scan('player run north')
         sent = Sentence(subject, verb, obj)
         result = sent.subject, sent.verb, sent.object
         should_be = ('player', 'run', 'north')
@@ -49,7 +43,7 @@ class TestParseSentence(unittest.TestCase):
         """
         Test 'Parse.sentence'
         """
-        data = [('noun', 'bear'), ('verb', 'run'), ('direction', 'north')]
+        data = lexicon.scan('bear run north')
         sentence = Sentence(data[0], data[1], data[2])
         parse = Parse()
         sentence1 = parse.sentence(data)
@@ -65,7 +59,7 @@ class TestPeek(unittest.TestCase):
         """
         Test 'peek' with correct 'word_list'
         """
-        data = [('noun', 'bear'), ('verb', 'eat')]
+        data = lexicon.scan('bear eat')
         result = peek(data)
         should_be = 'noun'
         self.assertEqual(result, should_be)
@@ -85,7 +79,7 @@ class TestMatch(unittest.TestCase):
         """
         Test 'match' with correct 'word_list'
         """
-        data = [('noun', 'bear'), ('verb', 'run')]
+        data = lexicon.scan('bear run')
         result = match(data, 'noun')
         should_be = ('noun', 'bear')
         self.assertEqual(result, should_be)
@@ -94,7 +88,7 @@ class TestMatch(unittest.TestCase):
         """
         Test 'match' with wrong 'word_list'
         """
-        data = [('noun', 'bear'), ('verb', 'run')]
+        data = lexicon.scan('bear run')
         result = match(data, 'verb')
         should_be = None
         self.assertEqual(result, should_be)
