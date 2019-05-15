@@ -37,12 +37,29 @@ class TestException(unittest.TestCase):
 class TestSentence(unittest.TestCase):
     def test_sentence(self):
         """
-        Test Sentence for right args
+        Test Sentence's args
         """
         subject, verb, obj = ('noun', 'player'), ('verb', 'run'), ('direction', 'north')
         sent = Sentence(subject, verb, obj)
         result = sent.subject, sent.verb, sent.object
         should_be = ('player', 'run', 'north')
+        self.assertEqual(result, should_be)
+
+
+class TestParseSentence(unittest.TestCase):
+    def test_parse_sentence(self):
+        """
+        Test parse_sentece
+        """
+        data = [('noun', 'bear'), ('verb', 'run'), ('direction', 'north')]
+        sentence = Sentence(
+            ('noun', 'bear'), ('verb', 'run'), ('direction', 'north')
+        )
+        sentence1 = parse_sentence(data)
+        
+        result = [sentence1.subject, sentence1.verb, sentence1.object]
+        should_be = [sentence.subject, sentence.verb, sentence.object]
+
         self.assertEqual(result, should_be)
 
 if __name__ == "__main__":
