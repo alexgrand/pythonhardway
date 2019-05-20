@@ -12,3 +12,6 @@ def hello_world():
 @app.route('/nihao')
 def nihao_world():
     return 'Nihao, World'
+
+if __name__ == "__main__":
+    app.run()
