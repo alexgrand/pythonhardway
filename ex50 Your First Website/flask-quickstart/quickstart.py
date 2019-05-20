@@ -28,3 +28,13 @@ def show_post(post_id):
 def show_subpath(subpath):
     # show the subpath after /path/
     return 'Subpath %s' % f"'{subpath}'"
+
+
+@app.route('/projects/')
+def projects():
+    return 'The project page'
+
+
+@app.route('/about')
+def about():
+    return 'The about page'
