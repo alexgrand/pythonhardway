@@ -2,7 +2,15 @@ from flask import Flask
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route('/')
 def hello_world():
     greeting = "World"
-    return f'<h1>Hello, {greeting}!</h1>'
+    return f'Hello, {greeting}!'
+
+
+@app.route('/nihao')
+def nihao_world():
+    return 'Nihao, World'
+
+if __name__ == "__main__":
+    app.run()
