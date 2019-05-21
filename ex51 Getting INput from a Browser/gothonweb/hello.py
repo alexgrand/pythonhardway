@@ -5,8 +5,8 @@ from flask import request
 app = Flask(__name__)
 
 
-@app.route("/", methods=['POST', 'GET'])
-def index():
+@app.route("/hello", methods=['POST', 'GET'])
+def hello():
     greeting = "Hello World"
 
     if request.method == "POST":
@@ -17,6 +17,12 @@ def index():
     else:
         return render_template("hello_form.html")
 
+
+@app.route("/")
+def index():
+    greeting = "Hello, World"
+
+    return render_template("index.html", greeting=greeting)
 
 if __name__ == "__main__":
     app.run()
