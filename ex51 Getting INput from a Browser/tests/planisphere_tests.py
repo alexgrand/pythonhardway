@@ -48,11 +48,15 @@ class TestRoom(unittest.TestCase):
         start_room = load_room(START)
 
         result1 = start_room.go('shoot!')
+        should_be1 = generic_death.die().name
         result2 = start_room.go('dodge!')
+        should_be2 = generic_death.die().name
         result3 = start_room.go('tell a joke')
-        self.assertEqual(result1.name, generic_death.die().name)
-        self.assertEqual(result2.name, generic_death.die().name)
-        self.assertEqual(result3.name, laser_weapon_armory.name)
+        should_be3 = laser_weapon_armory.name
+
+        self.assertEqual(result1.name, should_be1)
+        self.assertEqual(result2.name, should_be2)
+        self.assertEqual(result3.name, should_be3)
 
     def test_name_room(self):
         """
