@@ -46,11 +46,13 @@ class TestRoom(unittest.TestCase):
         Test load_room
         """
         start_room = load_room(START)
-        self.assertEqual(start_room.go('shoot!'), generic_death)
-        self.assertEqual(start_room.go('dodge!'), generic_death)
 
-        room = start_room.go('tell a joke')
-        self.assertEqual(room, laser_weapon_armory)
+        result1 = start_room.go('shoot!')
+        result2 = start_room.go('dodge!')
+        result3 = start_room.go('tell a joke')
+        self.assertEqual(result1.name, generic_death.die().name)
+        self.assertEqual(result2.name, generic_death.die().name)
+        self.assertEqual(result3.name, laser_weapon_armory.name)
 
     def test_name_room(self):
         """
@@ -60,6 +62,14 @@ class TestRoom(unittest.TestCase):
         result = name_room(data)
         should_be = 'central_corridor'
         self.assertEqual(result, should_be)
+
+
+class TestScenes(unittest.TestCase):
+    def test_scenes(self):
+        """
+        Test scenes
+        """
+        pass
 
 if __name__ == '__main__':
     unittest.main()
