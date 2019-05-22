@@ -1,3 +1,6 @@
+from random import randint
+
+
 class Room(object):
 
     def __init__(self, name, description):
@@ -10,6 +13,24 @@ class Room(object):
 
     def add_paths(self, paths):
         self.paths.update(paths)
+
+
+class Death(object):
+    def __init__(self):
+        self.quips = [
+            "You died.  You kiinda suck at this.",
+            "Your Mom would be proud... if she were smarter.",
+            "Such a luser.",
+            "I have a small puppy that's better at this.",
+            "You're worse that your Dad's jokes."
+        ]
+
+    def die(self):
+        quip = self.quips[randint(0, len(self.quips) - 1)]
+        return Room('death', quip)
+
+    def add(self, quip):
+        self.quips.append(quip)
 
 central_corridor = Room(
     "Central Corridor",
@@ -103,10 +124,10 @@ escape_pod.add_paths({
     '*': the_end_loser
 })
 
-generic_death = Room("death", "You died.")
+generic_death = Death()
 
 the_bridge.add_paths({
-    'throw the bomb': generic_death,
+    'throw the bomb': generic_death.die(),
     'slowly place the bomb': escape_pod
 })
 
@@ -116,8 +137,8 @@ laser_weapon_armory.add_paths({
 })
 
 central_corridor.add_paths({
-    'shoot!': generic_death,
-    'dodge!': generic_death,
+    'shoot!': generic_death.die(),
+    'dodge!': generic_death.die(),
     'tell a joke': laser_weapon_armory
 })
 
