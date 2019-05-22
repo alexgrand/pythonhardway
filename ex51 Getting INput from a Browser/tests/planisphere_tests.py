@@ -64,12 +64,15 @@ class TestRoom(unittest.TestCase):
         self.assertEqual(result, should_be)
 
 
-class TestScenes(unittest.TestCase):
-    def test_scenes(self):
+class TestDeath(unittest.TestCase):
+    def test_death(self):
         """
-        Test scenes
+        Test Death
         """
-        pass
+        data = Death()
+        result = data.die().name
+        should_be = 'death'
+        self.assertEqual(result, should_be)
 
 if __name__ == '__main__':
     unittest.main()
