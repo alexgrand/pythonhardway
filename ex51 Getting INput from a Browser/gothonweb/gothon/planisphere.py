@@ -11,7 +11,10 @@ class Room(object):
     def add_paths(self, paths):
         self.paths.update(paths)
 
-central_corridor = Room(
+
+scenes = {}
+
+scenes['central_corridor'] = Room(
     "Central Corridor",
     """
     The Gothons of Planet Percal #25 have invaded your ship and destroyed
@@ -27,7 +30,7 @@ central_corridor = Room(
     )
 
 
-laser_weapon_armory = Room(
+scenes['laser_weapon_armory'] = Room(
     "Laser Weapon Armory",
     """
     Lucky for you they made you learn Gothon insults in the academy.  You
@@ -47,7 +50,7 @@ laser_weapon_armory = Room(
     )
 
 
-the_bridge = Room(
+scenes['the_bridge'] = Room(
     "The Bridge",
     """
     The container clicks open and the seal breaks, letting gas out.  You
@@ -63,7 +66,7 @@ the_bridge = Room(
     )
 
 
-escape_pod = Room(
+scenes['escape_pod'] = Room(
     "Escape Pod",
     """
     You point your blaster at the bomb under your arm and the Gothons put
@@ -83,7 +86,7 @@ escape_pod = Room(
     )
 
 
-the_end_winner = Room(
+scenes['the_end_winner'] = Room(
     "The End",
     """
     You jump into pod 2 and hit the eject button.  The pod easily slides out
@@ -94,7 +97,7 @@ the_end_winner = Room(
     )
 
 
-the_end_loser = Room(
+scenes['the_end_loser'] = Room(
     "The End",
     """
     You jump into a random pod and hit the eject button.  The pod escapes
@@ -104,48 +107,40 @@ the_end_loser = Room(
     )
 
 
-escape_pod.add_paths({
-    '2': the_end_winner,
-    '*': the_end_loser
+scenes['escape_pod'].add_paths({
+    '2': scenes['the_end_winner'],
+    '*': scenes['the_end_loser']
 })
 
-generic_death = Room("death", "You died.")
+scenes['generic_death'] = Room("death", "You died.")
 
 
-the_bridge.add_paths({
-    'throw the bomb': generic_death,
-    'slowly place the bomb': escape_pod
-})
-
-
-laser_weapon_armory.add_paths({
-    '0132': the_bridge,
-    '*': generic_death
+scenes['the_bridge'].add_paths({
+    'throw the bomb': scenes['generic_death'],
+    'slowly place the bomb': scenes['escape_pod']
 })
 
 
-central_corridor.add_paths({
-    'shoot!': generic_death,
-    'dodge!': generic_death,
-    'tell a joke': laser_weapon_armory
+scenes['laser_weapon_armory'].add_paths({
+    '0132': scenes['the_bridge'],
+    '*': scenes['generic_death']
+})
+
+
+scenes['central_corridor'].add_paths({
+    'shoot!': scenes['generic_death'],
+    'dodge!': scenes['generic_death'],
+    'tell a joke': scenes['laser_weapon_armory']
 })
 
 START = 'central_corridor'
 
 
 def load_room(name):
-    """
-    There is a potential security problem here.
-    Who gets to set name? Can that expose a variable?
-    """
-    return globals().get(name)
+    return scenes.get(name)
 
 
 def name_room(room):
-    """
-    Same possible security problem.  Can you trust room?
-    What's a better solution than this globals lookup?
-    """
-    for key, value in globals().items():
+    for key, value in scenes.items():
         if value == room:
             return key
